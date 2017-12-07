@@ -3,7 +3,7 @@ const assert = require('better-assert')
 const Router = require('koa-router')
 const debug = require('debug')('app:routes:index')
 // 1st party
-const db = require('../db')
+const db_users = require('../db/db_users')
 const mw = require('../middleware')
 const config = require('../config')
 const belt = require('../belt')
@@ -19,18 +19,19 @@ const router = new Router()
 // Show login form
 router.get('/login', async ctx => {
     await ctx.render('login', {
-        title: 'Login',
+      title: 'Login',
+      flash: ctx.flash
     })
 })
 
 // //////////////////////////////////////////////////////////
 
 // Create login session
-router.post('/login', mw.ensureRecaptcha(), async ctx => {
+router.post('/login', async ctx => {
     // Validate
 
     ctx
-        .validateBody('uname')
+        .validateBody('username')
         .required('Invalid creds')
         .isString()
         .trim()
@@ -38,28 +39,20 @@ router.post('/login', mw.ensureRecaptcha(), async ctx => {
         .validateBody('password')
         .required('Invalid creds')
         .isString()
-    ctx.validateBody('remember-me').toBoolean()
+    //ctx.validateBody('remember-me').toBoolean()
 
-    const user = await db.getUserByUname(ctx.vals.uname)
+    const user = await db_users.getUserByUname(ctx.vals.username)
     ctx.check(user, 'Invalid creds')
     ctx.check(
-        await belt.checkPassword(ctx.vals.password, user.digest),
+        await belt.checkPassword(ctx.vals.password, user.password),
         'Invalid creds'
     )
 
-    // User authenticated
-
-    const session = await db.insertSession(
-        user.id,
-        ctx.ip,
-        ctx.headers['user-agent'],
-        ctx.vals['remember-me'] ? '1 year' : '2 weeks'
-    )
-
-    ctx.cookies.set('session_id', session.id, {
-        expires: ctx.vals['remember-me']
-            ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 365)
-            : undefined,
+    ctx.cookies.set('username', ctx.vals.username, {
+      expires:
+      //ctx.vals['remember-me']
+      //? new Date(Date.now() + 1000 * 60 * 60 * 24 * 365):
+      undefined
     })
     ctx.flash = { message: ['success', 'Logged in successfully'] }
 
@@ -71,18 +64,19 @@ router.post('/login', mw.ensureRecaptcha(), async ctx => {
 // Show register form
 router.get('/register', async ctx => {
     await ctx.render('register', {
-        title: 'Register',
+      title: 'Register',
+      flash:ctx.flash
     })
 })
 
 // //////////////////////////////////////////////////////////
 
 // Create user
-router.post('/users', mw.ensureRecaptcha(), async ctx => {
+router.post('/register', mw.ensureRecaptcha(), async ctx => {
     // Validation
 
     ctx
-        .validateBody('uname')
+        .validateBody('username')
         .isString('Username required')
         .trim()
         .isLength(3, 15, 'Username must be 3-15 chars')
@@ -91,7 +85,7 @@ router.post('/users', mw.ensureRecaptcha(), async ctx => {
             'Username must only contain a-z, 0-9, underscore (_), or hypen (-)'
         )
         .match(/[a-z]/i, 'Username must contain at least one letter (a-z)')
-        .checkNot(await db.getUserByUname(ctx.vals.uname), 'Username taken')
+        .checkNot(await db_users.getUserByUname(ctx.vals.username), 'Username taken')
 
     ctx
         .validateBody('password2')
@@ -105,40 +99,17 @@ router.post('/users', mw.ensureRecaptcha(), async ctx => {
         .isLength(6, 100, 'Password must be 6-100 chars')
         .eq(ctx.vals.password2, 'Password must match confirmation')
 
-    ctx
-        .validateBody('email')
-        .optional() // only validate email if user provided one
-        .isString()
-        .trim()
-        .isEmail('Invalid email address')
-        .isLength(1, 140, 'Email must be less than 140 chars')
-
     // Insert user
 
-    const user = await db.insertUser(
-        ctx.vals.uname,
-        ctx.vals.password1,
-        ctx.vals.email
+    const user = await db_users.insertUser(
+        ctx.vals.username,
+        ctx.vals.password1
     )
 
-    // Log them in
-
-    const session = await db.insertSession(
-        user.id,
-        ctx.ip,
-        ctx.headers['user-agent'],
-        '1 year'
-    )
-
-    ctx.cookies.set('session_id', session.id, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365), // 1 year
-        httpOnly: true,
-    })
-
-    // Redirect to homepage with the good news
+    // Redirect to login page with the good news
 
     ctx.flash = { message: ['success', 'Successfully registered. Welcome!'] }
-    ctx.redirect('/')
+    ctx.redirect('/login')
 })
 
 // //////////////////////////////////////////////////////////
@@ -153,7 +124,7 @@ router.del('/sessions/:id', async ctx => {
     }
     ctx.validateParam('id')
     await db.logoutSession(ctx.currUser.id, ctx.vals.id)
-    ctx.cookies.set('session_id', null)
+    ctx.cookies.set('username', null)
 
     ctx.flash = { message: ['success', 'You successfully logged out'] }
     ctx.redirect('/')

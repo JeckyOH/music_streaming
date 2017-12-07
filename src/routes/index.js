@@ -59,8 +59,16 @@ router.get('/test', async ctx => {
 // Show homepage
 router.get('/', async ctx => {
     await ctx.render('index', {
-      title:"HelloWorld"
+      title: "HelloWorld",
+      flash: ctx.flash,
+      user: ctx.currUser
     })
+})
+
+router.get('/flash', async ctx => {
+    ctx.flash = { message: ['success', 'Logged in successfully'] }
+
+    ctx.redirect('/')
 })
 
 // //////////////////////////////////////////////////////////

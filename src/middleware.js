@@ -4,9 +4,9 @@ const nodeUrl = require('url')
 const debug = require('debug')('app:middleware')
 const bouncer = require('koa-bouncer')
 const recaptcha = require('recaptcha-validator')
-const makeRender = require('react-template-render')
+
 // 1st
-const db = require('./db')
+const db_users = require('./db/db_users')
 const config = require('./config')
 const pre = require('./presenters')
 
@@ -14,13 +14,12 @@ const pre = require('./presenters')
 // is an active session.
 exports.wrapCurrUser = function() {
     return async (ctx, next) => {
-        const sessionId = ctx.cookies.get('session_id')
-        debug('[wrapCurrUser] session_id: ' + sessionId)
-        if (!sessionId) return next()
-        const user = await db.getUserBySessionId(sessionId)
+        const username = ctx.cookies.get('username')
+        debug('[wrapCurrUser] username: ' + username)
+        if (!username) return next()
+        const user = await db_users.getUserByUname(username)
         if (user) {
             ctx.currUser = pre.presentUser(user)
-            ctx.currSessionId = sessionId
             debug('[wrapCurrUser] User found')
         } else {
             debug('[wrapCurrUser] No user found')
@@ -240,25 +239,5 @@ exports.ratelimit = function() {
             output += `${secs} seconds`
         }
         return output
-    }
-}
-
-// Adds ctx.render() method to koa context for rendering our pug templates
-exports.reactRender = (root, opts) => {
-    return async (ctx, next) => {
-        ctx.renderer = makeRender(root, opts)
-
-        // Convenience function for streaming to the response
-        ctx.render = (template, locals, overrides) => {
-            ctx.type = 'html'
-            ctx.body = ctx.renderer.stream(
-                template,
-                // Every template gets access to ctx
-                { ...locals, ctx },
-                overrides
-            )
-        }
-
-        return next()
     }
 }

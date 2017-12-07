@@ -10,6 +10,18 @@
         {% endblock %}
     </head>
     <body>
+      {% if flash and flash.message %}
+      <div class = "alert alert-{{ flash.message[0] }}">
+        {{ flash.message[1] }}
+      </div>
+      {% endif %}
+
+      {% if user and user.username %}
+      <div class = "container">
+        <a href="{{ user.url }}"> {{ user.username }} </a>
+      </div>
+      {% endif %}
+
         {% block content %}
 
         {% endblock %}

@@ -15,8 +15,7 @@
 exports.presentUser = function(x) {
     if (!x) return
     // Fix embedded json representation
-    if (typeof x.created_at === 'string') x.created_at = new Date(x.created_at)
-    x.url = `/users/${x.uname}`
+    x.url = `/users/${x.username}`
     return x
 }
 

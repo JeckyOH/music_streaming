@@ -39,8 +39,8 @@ app.use(bodyParser())
 app.use(mw.methodOverride()) // Must come after body parser
 app.use(mw.ensureReferer()) // must come after methodOverride
 app.use(mw.removeTrailingSlash())
-//app.use(mw.wrapCurrUser())
-//app.use(mw.wrapFlash())
+app.use(mw.wrapCurrUser())
+app.use(mw.wrapFlash())
 app.use(bouncer.middleware())
 app.use(mw.handleBouncerValidationError()) // Must come after bouncer.middleware()
 app.use(koaNunjucks({
