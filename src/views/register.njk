@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+    <!-- Bootstrap -->
+    <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--引入datetimepicker的css文件-->
+    <link rel="stylesheet" type="text/css" media="screen" href="./lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./lib/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="./lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- include datetimepicker -->
+    <script type="text/javascript" src="./lib/datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="./lib/datetimepicker/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="page-header">
+            <h1>Create your account</h1>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="register.php" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control" placeholder="Username"  name="username" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone"></span></span>
+                    <input type="text" class="form-control" placeholder="Phone" name="phone" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<?php
+include 'connect.php';
+
+if(!isset($_POST['submit']))
+{
+    exit ();
+}
+$username=$_POST['username'];
+$phone=$_POST['phone'];
+
+$sql = "INSERT INTO customer (cid, cname, phone) VALUES (null, '$username', '$phone')";
+echo $sql;
+if($result = $conn->query($sql)){
+    echo "<script>alert('Register successful');window.location.href='index.php';</script>";
+}
+else {
+    echo 'jjj';
+}
+mysqli_close($conn);
+?>
+</body>
+</html>
