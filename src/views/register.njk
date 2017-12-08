@@ -1,5 +1,9 @@
 {% extends 'layout.njk' %}
 
+{% block more_heads %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -24,7 +28,9 @@
                     <input type="password" class="form-control" placeholder="Confirm Password" name="password2" aria-describedby="basic-addon1">
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+                <div class="g-recaptcha" data-sitekey="{{ reCaptcha_sitekey }}"></div>
+                <br>
+                <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Register</button>
             </form>
         </div>
         <div class="col-md-3"></div>

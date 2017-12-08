@@ -18,8 +18,9 @@ exports.wrapCurrUser = function() {
         debug('[wrapCurrUser] username: ' + username)
         if (!username) return next()
         const user = await db_users.getUserByUname(username)
-        if (user) {
-            ctx.currUser = pre.presentUser(user)
+      if (user) {
+          ctx.currUser = pre.presentUser(user)
+          ctx.state.user = ctx.currUser
             debug('[wrapCurrUser] User found')
         } else {
             debug('[wrapCurrUser] No user found')
@@ -37,7 +38,8 @@ exports.wrapFlash = function(cookieName = 'flash') {
             tmp = decodeURIComponent(ctx.cookies.get(cookieName))
             // Handle bad JSON in the cookie, possibly set by fuzzers
             try {
-                data = JSON.parse(tmp)
+              data = JSON.parse(tmp)
+              ctx.state.flash = data
             } catch (err) {
                 ctx.cookies.set(cookieName, null)
                 data = {}

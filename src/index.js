@@ -16,7 +16,6 @@ const koaNunjucks = require('koa-nunjucks-2');
 const config = require('./config')
 const mw = require('./middleware')
 const belt = require('./belt')
-const cancan = require('./cancan')
 
 // //////////////////////////////////////////////////////////
 
