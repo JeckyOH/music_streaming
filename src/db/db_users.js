@@ -14,7 +14,7 @@ exports.getUserByUname = async function(uname) {
     assert(typeof uname === 'string')
     return pool.one(sql`
     SELECT *
-    FROM "User"
+    FROM "users"
     WHERE username = ${uname}
   `)
 }
@@ -29,7 +29,7 @@ exports.insertUser = async function(uname, password) {
     assert(typeof password === 'string')
     const digest = await belt.hashPassword(password)
     return pool.one(sql`
-    INSERT INTO "User" (username, password)
+    INSERT INTO "users" (username, password)
     VALUES (${uname}, ${digest})
     RETURNING *
   `)
