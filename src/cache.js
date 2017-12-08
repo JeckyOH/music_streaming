@@ -1,7 +1,7 @@
 // 3rd
 const IntervalCache = require('interval-cache')
 // 1st
-const db = require('./db')
+const db_tracks = require('./db/db_tracks')
 
 //
 // Some things are too wasteful to calculate on every request,
@@ -14,6 +14,5 @@ const db = require('./db')
 // //////////////////////////////////////////////////////////
 
 module.exports = new IntervalCache()
-    .every('messages-count', 1000 * 60, db.getMessagesCount, 0)
-    .every('users-count', 1000 * 60, db.getUsersCount, 0)
+    .every('top100_tracks', 1000 * 60, db_tracks.getTop100Tracks, [])
     .start()

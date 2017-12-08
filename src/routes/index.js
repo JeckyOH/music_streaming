@@ -61,10 +61,21 @@ router.get('/', async ctx => {
   })
 })
 
-router.get('/flash', async ctx => {
-  ctx.flash = { message: ['success', 'Logged in successfully'] }
+/**
+ * Show Homepage after the user login.
+ *
+ * @ Params url '/homepage'
+ */
+router.get('/homepage', async ctx => {
+  if (!ctx.currUser) {
+    ctx.flash = { message: ['warning', 'Sorry, Please login in first.']}
+    ctx.redirect('/login')
+  }
+  // TODO search database
 
-  ctx.redirect('/')
+  ctx.render('homepage', {
+    title: "Homepage"
+  })
 })
 
 // //////////////////////////////////////////////////////////
