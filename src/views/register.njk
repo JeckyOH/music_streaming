@@ -1,39 +1,47 @@
 {% extends 'layout.njk' %}
 
 {% block more_heads %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <style>
+        body {
+            background-image: url("/img/register.jpg");
+            background-size: cover;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="page-header">
-            <h1>Create your account</h1>
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <br>
+                <br>
+                <h1 style="color: white">Create your account</h1>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form action="register" method="post">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" class="form-control" placeholder="Username"  name="username" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone"></span></span>
+                        <input type="password" class="form-control" placeholder="Password" name="password1" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone"></span></span>
+                        <input type="password" class="form-control" placeholder="Confirm Password" name="password2" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <div class="g-recaptcha" data-sitekey="{{ reCaptcha_sitekey }}"></div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-lg pull-right" name="submit" value="submit">Register</button>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <form action="register" method="post">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" class="form-control" placeholder="Username"  name="username" aria-describedby="basic-addon1">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone"></span></span>
-                    <input type="password" class="form-control" placeholder="Password" name="password1" aria-describedby="basic-addon1">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone"></span></span>
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="password2" aria-describedby="basic-addon1">
-                </div>
-                <br>
-                <div class="g-recaptcha" data-sitekey="{{ reCaptcha_sitekey }}"></div>
-                <br>
-                <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Register</button>
-            </form>
-        </div>
-        <div class="col-md-3"></div>
     </div>
-</div>
 {% endblock %}

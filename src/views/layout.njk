@@ -3,27 +3,105 @@
     <head>
         <meta charset="utf-8">
         <title>{{ title }}</title>
+
         <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
         <script src="/lib/jquery/jquery-3.2.1.min.js"></script>
+
+        <!-- Bootstrap core JavaScript -->
         <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
         {% block more_heads  %}
         {% endblock %}
     </head>
     <body>
-      {% if flash and flash.message %}
-      <div class = "alert alert-{{ flash.message[0] }}">
+        {% if flash and flash.message %}
+        <div class = "alert alert-{{ flash.message[0] }}">
         {{ flash.message[1] }}
-      </div>
-      {% endif %}
+        </div>
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-mid-12">
+                    <!-- Navigation -->
+                    <nav class="navbar navbar-default navbar-fixed-top">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#">Music Streaming</a>
+                            </div>
 
-      {% if user %}
-      <div class = "container">
-        <a href="{{ user.url }}"> {{ user.username }} </a>
-      </div>
-      {% endif %}
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            {% if user %}
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active"><a href="homepage.njk">Moment <span class="sr-only">(current)</span></a></li>
+                                        <li><a href="index.njk">Discover</a></li>
+                                        <li><a href="#">Playlist</a></li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                               aria-expanded="false"> {{ user.username }} <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Profile</a></li>
+                                                <li><a href="#">Follow</a></li>
+                                                <li><a href="#">Playlist</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <form class="navbar-form navbar-right">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Search music, playlist">
+                                            <button type="submit" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div><!-- /.navbar-collapse -->
+                            {% else %}
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="/login">Moment</a></li>
+                                        <li class="active"><a href="/index">Discover <span class="sr-only">(current)</span></a></li>
+                                        <li><a href="#">Playlist</a></li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li><a href="/login"><span class="glyphicon glyphicon-user"></a></li>
+                                        <li><a href="/register">Register</a></li>
+                                    </ul>
+                                    <form class="navbar-form navbar-right">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Search music, playlist">
+                                        </div>
+                                        <button type="submit" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </form>
+                                </div><!-- /.navbar-collapse -->
+                            {% endif %}
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+        {% if user %}
+        <div class = "container">
+            <a href="{{ user.url }}"> {{ user.username }} </a>
+        </div>
+        {% endif %}
 
         {% block content %}
 
         {% endblock %}
+
+
     </body>
 </html>
