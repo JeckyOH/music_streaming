@@ -43,3 +43,10 @@ abbr[title] {
     /* Bootstrap gives abbr's an extraneous underline */
     border: 0;
 }
+
+.alert-top {
+    top:0;
+    position:fixed;
+    max-height: 200;
+    panding: 10px;
+}

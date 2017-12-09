@@ -64,6 +64,7 @@ app.use(async (ctx, next) => {
 
 app.use(require('./routes').routes())
 app.use(require('./routes/authentication').routes())
+app.use(require('./routes/search').routes())
 
 // //////////////////////////////////////////////////////////
 

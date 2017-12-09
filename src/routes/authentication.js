@@ -114,14 +114,14 @@ router.post('/register', mw.ensureRecaptcha(), async ctx => {
 // //////////////////////////////////////////////////////////
 
 // Logout
-router.del('/user/:username', async ctx => {
+router.get('/logout', async ctx => {
   // If user isn't logged in, give them the success case anyways
   if (!ctx.state.user) {
     ctx.flash = { message: ['success', 'You successfully logged out'] }
     ctx.redirect('/')
     return
   }
-  ctx.validateParam('username')
+
   ctx.cookies.set('username', null)
 
   ctx.flash = { message: ['success', 'You successfully logged out'] }

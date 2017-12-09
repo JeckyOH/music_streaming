@@ -38,3 +38,22 @@ exports.presentMessage = function(x) {
   x.url = `/messages/${x.id}`
   return x
 }
+
+exports.presentTracks = function(x) {
+    if (!x) return
+    x.play_url = ``
+    x.open_url = ``
+    return x
+}
+
+exports.presentAlbums = function(x) {
+    if (!x) return
+    x.open_url = ``
+    return x
+}
+
+exports.presentArtists = function(x) {
+    if (!x) return
+    x.open_url = ``
+    return x
+}
