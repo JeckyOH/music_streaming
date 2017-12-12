@@ -21,39 +21,60 @@
 {% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Music Streaming</h1>
-            <p>Get everything you want. 1-click, enjoy the list.</p>
-        </div>
-    </div>
+    <<div class="page-header"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Hit List</div>
+                    <div class="panel-heading">{{ user.username }}</div>
                     <div class="panel-body">
-                        Panel content
+                        <ul class="list-group nav nav-pills nav-stacked">
+                            <li class="list-group-item tall"><a href="#">My Playlists</a> </li>
+                            <li class="list-group-item tall"><a href="#">My Favorite Artists</a> </li>
+                            <li class="list-group-item tall"><a href="#">My Follows</a> </li>
+                            <li class="list-group-item tall"><a href="#">Followers</a> </li>
+                            <li class="list-group-item tall"><a href="#">My Ratings</a> </li>
+                        </ul>
                     </div>
-                    <div class="panel-heading">Popular Playlist</div>
-                    <div class="panel-body">
-                        Panel content
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/profile">Modify Profile</a> </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#myMoment">My Moment</a></li>
+                    <li><a data-toggle="tab" href="#friendCircle">Friend Circle</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="myMoment" class="tab-pane fade in active">
+                        <h3>My Moment</h3>
+                        <p>List most recent playlsit, artist, follow, rating</p>
                     </div>
-                    <div class="panel-heading">Celebrity rods</div>
-                    <div class="panel-body">
-                        Panel content
-                    </div>
-                    <div class="panel-heading">Album</div>
-                    <div class="panel-body">
-                        Panel content
+                    <div id="friendCircle" class="tab-pane fade">
+                        <h3>Friend Circle</h3>
+                        <p>List most recent playlsit, artist, follow, rating</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Daily</div>
+                    <div class="panel-heading">Recommend</div>
                     <div class="panel-body">
-                        Panel content
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {#{% for item in albums %}#}
+                                {#<tr>#}
+                                    {#<td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>#}
+                                    {#<td class="content">{{ item.alid }}</td>#}
+                                {#</tr>#}
+                            {#{% endfor %}#}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
