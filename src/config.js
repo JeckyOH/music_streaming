@@ -1,5 +1,7 @@
 // Ensure require('dotenv').config() is run before this module is required
 
+const logger = require('logging')
+
 exports.NODE_ENV = process.env.NODE_ENV || 'development'
 exports.PORT = Number.parseInt(process.env.PORT, 10) || 3000
 exports.DATABASE_URL =
@@ -16,7 +18,7 @@ exports.TRUST_PROXY = process.env.TRUST_PROXY === 'true'
 // Ex: example.com, subdomain.example.com
 exports.HOSTNAME = process.env.HOSTNAME
 if (!exports.HOSTNAME) {
-    console.warn(
+    logger.warn(
         'Warn: CSRF checks are disabled since there is no HOSTNAME environment variable provided'
     )
 }
@@ -24,12 +26,12 @@ if (!exports.HOSTNAME) {
 exports.RECAPTCHA_SITEKEY = process.env.RECAPTCHA_SITEKEY
 exports.RECAPTCHA_SITESECRET = process.env.RECAPTCHA_SITESECRET
 if (!exports.RECAPTCHA_SITEKEY) {
-    console.warn(
+    logger.warn(
         'Warn: Recaptcha will not work since RECAPTCHA_SITEKEY is not set'
     )
 }
 if (!exports.RECAPTCHA_SITESECRET) {
-    console.warn(
+    logger.warn(
         'Warn: Recaptcha will not work since RECAPTCHA_SITESECRET is not set'
     )
 }
@@ -38,9 +40,9 @@ exports.RECAPTCHA_SYSTEM_ONLINE = !!(
     exports.RECAPTCHA_SITEKEY && exports.RECAPTCHA_SITESECRET
 )
 if (exports.RECAPTCHA_SYSTEM_ONLINE) {
-    console.log('Recaptcha system online')
+    logger.info('Recaptcha system online')
 } else {
-    console.warn('Warn: Recaptcha system offline')
+    logger.warn('Warn: Recaptcha system offline')
 }
 
 exports.MESSAGES_PER_PAGE =
@@ -54,5 +56,5 @@ exports.FUZZING_SEARCH_LIMIT =
 
 // Output config object in development to help with sanity-checking
 if (exports.NODE_ENV === 'development' || exports.NODE_ENV === 'test') {
-    console.log(exports)
+    logger.info(exports)
 }

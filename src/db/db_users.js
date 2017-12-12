@@ -34,3 +34,32 @@ exports.insertUser = async function(uname, password) {
     RETURNING *
   `)
 }
+
+/**
+ * Update the user`s basic information.
+ */
+exports.updateUserBasicInfo = async function(username, fields) {
+    assert(typeof username === 'string')
+    const WHITELIST = ['uname', 'uemail', 'ucity']
+    assert(Object.keys(fields).every(key => WHITELIST.indexOf(key) > -1))
+    return pool.one(sql`
+    UPDATE "users"
+    SET uemail = ${fields.uemail}, uname = ${fields.uname}, ucity = ${fields.ucity}
+    WHERE username = ${username}
+    RETURNING *
+  `)
+}
+
+/**
+ * Update the user`s password.
+ */
+exports.updateUserBasicInfo = async function(username, password) {
+    assert(typeof username === 'string')
+    assert(typeof password === 'string')
+    const digest = await belt.hashPassword(password)
+    return pool.one(sql`
+    UPDATE "users"
+    SET password = ${digest}
+    RETURNING *
+  `)
+}

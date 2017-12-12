@@ -3,4 +3,4 @@ node_modules
 .projectile
 .vscode
 .idea
-koa-skeleton.iml
+/log/*

@@ -7,7 +7,7 @@ const Koa = require('koa')
 const helmet = require('koa-helmet')
 const compress = require('koa-compress')
 const serveStatic = require('koa-better-static2')
-const logger = require('koa-logger')
+const koalogger = require('koa-logger')
 const bodyParser = require('koa-bodyparser')
 const bouncer = require('koa-bouncer')
 const koaNunjucks = require('koa-nunjucks-2');
@@ -16,6 +16,7 @@ const koaNunjucks = require('koa-nunjucks-2');
 const config = require('./config')
 const mw = require('./middleware')
 const belt = require('./belt')
+const logger = require('./logging')
 
 // //////////////////////////////////////////////////////////
 
@@ -33,7 +34,7 @@ app.use(compress())
 // TODO: You would set a high maxage on static assets if they had their hash in their filename.
 // This project currently has no static asset build system setup.
 app.use(serveStatic('public', { maxage: 0 }))
-app.use(logger())
+app.use(koalogger())
 app.use(bodyParser())
 app.use(mw.methodOverride()) // Must come after body parser
 app.use(mw.ensureReferer()) // must come after methodOverride
@@ -55,7 +56,7 @@ app.use(async (ctx, next) => {
   const start = new Date();
   await next();
   const ms = new Date() - start;
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+  logger.info(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
 // //////////////////////////////////////////////////////////
@@ -70,7 +71,7 @@ app.use(require('./routes/search').routes())
 
 app.start = function(port = config.PORT) {
     app.listen(port, () => {
-        console.log(`Listening on http://localhost:${port}`)
+        logger.info(`Listening on http://localhost:${port}`)
     })
 }
 
