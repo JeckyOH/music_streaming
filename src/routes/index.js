@@ -73,7 +73,7 @@ router.get('/homepage', async ctx => {
   }
   // TODO search database
 
-  ctx.render('homepage', {
+  await ctx.render('homepage', {
     title: "Homepage"
   })
 })

@@ -13,14 +13,14 @@
         {% block more_heads  %}
         {% endblock %}
     </head>
-    <body>
-    <div class="container">
-        {% if flash and flash.message %}
-            <div class = "alert alert-{{ flash.message[0] }} alert-top">
-                {{ flash.message[1] }}
-            </div>
-        {% endif %}
-    </div>
+    <body data-spy="scroll" data-target="#myScrollspy" data-offset="10">
+    {% if flash and flash.message %}
+        <div class = "alert alert-{{ flash.message[0] }}">
+            <button type="button" class="close alert-top" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            {{ flash.message[1] }}
+        </div>
+    {% endif %}
         <div class="container">
             <div class="row">
                 <div class="col-mid-12">
@@ -35,60 +35,50 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="#">Music Streaming</a>
+                                <a class="navbar-brand" href="/">Music Streaming</a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
-                            {% if user %}
-                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                    <ul class="nav navbar-nav">
-                                        <li class="active"><a href="homepage.njk">Moment <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="index.njk">Discover</a></li>
-                                        <li><a href="#">Playlist</a></li>
-                                    </ul>
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    {% if user %}
+                                        <li><a href="/homepage">Moment <span class="sr-only">(current)</span></a></li>
+                                    {% else %}
+                                        <li><a href="/login">Moment</a></li>
+                                    {% endif %}
+                                    <li class="active"><a href="/">Discover <span class="sr-only">(current)</span></a></li>
+                                    <li><a href="/channel">Channel</a></li>
+                                </ul>
+                                {% if user %}
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                                aria-expanded="false"> {{ user.username }} <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#">Profile</a></li>
-                                                <li><a href="#">Follow</a></li>
-                                                <li><a href="#">Playlist</a></li>
+                                                <li><a href="/profit">Profile</a></li>
+                                                <li><a href="/follow">Follow</a></li>
+                                                <li><a href="/follow">Playlist</a></li>
                                                 <li role="separator" class="divider"></li>
                                                 <li><a href="/logout">Logout</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-                                    <form class="navbar-form navbar-right">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Search music, playlist">
-                                            <button type="submit" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div><!-- /.navbar-collapse -->
-                            {% else %}
-                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                    <ul class="nav navbar-nav">
-                                        <li><a href="/login">Moment</a></li>
-                                        <li class="active"><a href="/index">Discover <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="#">Playlist</a></li>
-                                    </ul>
+                                {% else %}
                                     <ul class="nav navbar-nav navbar-right">
                                         <li><a href="/login"><span class="glyphicon glyphicon-user"></a></li>
                                         <li><a href="/register">Register</a></li>
                                     </ul>
-                                    <form method = 'GET' action= '/search' class="navbar-form navbar-right">
-                                        <div class="form-group">
-                                            <input type="text" name='keyword' class="form-control" placeholder="Search music, playlist">
-                                        </div>
-                                        <button type="submit" class="btn btn-default">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                        </button>
-                                    </form>
-                                </div><!-- /.navbar-collapse -->
-                            {% endif %}
+                                {% endif %}
+
+                                <form method = 'GET' action= '/search' class="navbar-form navbar-right">
+                                    <div class="form-group">
+                                        <input type="text" name='keyword' class="form-control" placeholder="Search music, playlist">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </form>
+                            </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>
                 </div>

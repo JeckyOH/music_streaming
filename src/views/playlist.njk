@@ -1,0 +1,43 @@
+{% extends 'layout.njk' %}
+
+{% block more_heads  %}
+    <style>
+        /*body {*/
+            /*background-image: url("/img/login.jpg");*/
+            /*background-size: cover;*/
+        /*}*/
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="page-header">
+            <br>
+            <br>
+            <h1>{{ user.username }}</h1>
+            <h2>My Playlist</h2>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {% for item in playlists %}
+            <h2>{{ item.ptitle }}</h2>
+            <table class="table table-hover">
+                <thead>
+                </thead>
+                <tbody>
+                {% for track in item %}
+                    <tr>
+                        <td class="content">{{ track.ttitle }}</a></td>
+                        <td class="content"><button class="btn btn-default">
+                                <span class="glyphicon glyphicon-play"></span></button></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+{% endblock %}
