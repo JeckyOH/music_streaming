@@ -1,13 +1,163 @@
 {% extends 'layout.njk' %}
 
 {% block more_heads  %}
-
+    <style>
+        .tall {
+            padding: 20px;
+            font-size: large;
+            text-align: center;
+            opacity: 0.8;
+            border-right: 0;
+            border-top: 0;
+            border-left: 0;
+            border-bottom: 0;
+            width: 180%;
+        }
+        .content {
+            color: black;
+            opacity: 0.8;
+            border-right: 0;
+            border-top: 0;
+            border-left: 0;
+            border-bottom: 0;
+        }
+        .panel-heading {
+            font-size: x-large;
+            border: 0px solid transparent;
+        }
+        .panel {
+            border: 1px solid transparent;
+            color: #ffffff;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            opacity:0.7;
+        }
+        body {
+            background-color: yellowgreen;
+            position: relative;
+        }
+        @media screen and (max-width: 810px) {
+            #section1, #section2, #section3, #section4  {
+                margin-left: 150px;
+            }
+        }
+        ul.nav-pills {
+            position: fixed;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
+    <<div class="page-header"></div>
     <div class="container">
-        Hello World.
-        <br>
-        {{ tracks[0].ttitle }}
+        <div class="row">
+            <nav class="col-md-3" id="myScrollspy">
+                <ul class="list-group nav nav-pills nav-stacked">
+                    <li class="active list-group-item tall"><a href="#section1">Tracks</a> </li>
+                    <li class="list-group-item tall"><a href="#section2">Albums</a> </li>
+                    <li class="list-group-item tall"><a href="#section3">Users</a> </li>
+                    <li class="list-group-item tall"><a href="#section4">Playlists</a> </li>
+                </ul>
+            </nav>
+            <div class="col-md-9">
+                <div class="panel panel-default" id="section1">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Tracks</div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr style="color: black">
+                                    <th>Name</th>
+                                    <th>Artist</th>
+                                    <th>Play</th>
+                                    <th>Add</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for item in tracks %}
+                                        <tr>
+                                            <td class="content">{{ item.ttitle }}</td>
+                                            <td class="content">{{ item.tid }}</td>
+                                            <td class="content"><button class="btn btn-default">
+                                                    <span class="glyphicon glyphicon-play"></span></button></td>
+                                            <td class="content"><button class="btn btn-default">
+                                                    <span class="glyphicon glyphicon-plus"></span></button></td>
+                                        </tr>
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" id="section2">
+                    <div class="panel-heading">Albums</div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr style="color: black">
+                                <th>Name</th>
+                                <th>Artist</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in albums %}
+                                <tr>
+                                    <td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>
+                                    <td class="content">{{ item.alid }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" id="section3">
+                    <div class="panel-heading">Users</div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr style="color: black">
+                                    <th>Name</th>
+                                    <th>Follow</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in users %}
+                                <tr>
+                                    <td class="content">{{ item.username }}</td>
+                                    <td class="content"><button class="btn btn-default">
+                                            <span class="glyphicon glyphicon-tag"></span></button></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" id="section4">
+                    <div class="panel-heading">Artist</div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr style="color: black">
+                                <th>Name</th>
+                                <th>Favorite</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in artists %}
+                                <tr>
+                                    <td class="content">{{ item.aname }}</td>
+                                    <td class="content"><button class="btn btn-default">
+                                            <span class="glyphicon glyphicon-heart"></span></button></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}
