@@ -24,119 +24,119 @@ router.get('/playlists/:username', async ctx => {
 
     if (ctx.currUser && (ctx.currUser.username == ctx.vals.username)) {
         for (var idx = playlists.length; idx >= 0; idx--) {
-            if(playlists[idx].pstatus === "private") {
+            if (playlists[idx].pstatus === "private") {
                 playlists.splice(idx, 1)
             }
         }
     }
 
-router.get('/myplaylists', mw.ifLogin(), async ctx => {
-    const playlists = await db_playlists.getPlaylistByUsername(ctx.currUser.username)
-    playlists.forEach(pre.presentPlaylists)
+    router.get('/myplaylists', mw.ifLogin(), async ctx => {
+        const playlists = await db_playlists.getPlaylistByUsername(ctx.currUser.username)
+        playlists.forEach(pre.presentPlaylists)
 
-    await ctx.render('playlist', {
-        title: "My Playlist",
-        playlists: playlists
+        await ctx.render('playlist', {
+            title: "My Playlist",
+            playlists: playlists
+        })
     })
-})
 
-/**
- * Create a playlist.
- */
-router.post('/playlists/create', mw.ifLogin(), async ctx => {
-    ctx
-        .validateBody('ptitle')
-        .isString
-        .trim()
-    ctx
-        .validateBody('pstatus')
-        .isString()
-        .trim()
-        .isIn(['private', 'public'])
+    /**
+     * Create a playlist.
+     */
+    router.post('/playlists/create', mw.ifLogin(), async ctx => {
+        ctx
+            .validateBody('ptitle')
+            .isString
+            .trim()
+        ctx
+            .validateBody('pstatus')
+            .isString()
+            .trim()
+            .isIn(['private', 'public'])
 
-    const date = (new Date()).toLocaleDateString()
-    const pid = uuid.v4()
+        const date = (new Date()).toLocaleDateString()
+        const pid = uuid.v4()
 
-    const res = await db_playlists.insertPlaylist({
-        pid: pid,
-        username: ctx.currUser.username,
-        pstatus: ctx.vals.pstatus,
-        pcreatedate: date,
-        pmodifydate: date,
-        ptitle: ctx.vals.ptitle
-    })
-    if (res) {
-        ctx.flash = {message: ["success", "Successfully create playlist."]}
-    }
-    else {
-        ctx.flash = {message: ["error", "Unsuccessfully create playlist."]}
-    }
-    ctx.redirect('/myplaylists')
-})
-
-/**
- * Delete a playlist.
- */
-router.post('/playlists/delete', mw.ifLogin(), async ctx => {
-    ctx
-        .validateBody('pid')
-        .isString()
-        .trim()
-
-    await db_playlists.clearTracksOfPlaylist(ctx.vals.pid)
-    await db_playlists.deletePlaylist(ctx.vals.pid)
-
-    ctx.flash = {message: ["success", "Successfully create playlist."]}
-
-    ctx.redirect('/myplaylists')
-})
-
-/**
- * Add tracks to a playlist.
- */
-router.post('/playlists/addtracks', mw.ifLogin(), async ctx => {
-    ctx
-        .validateBody('pid')
-        .isString()
-        .trim()
-    ctx
-        .validateBody('tid')
-        .isString()
-        .trim()
-
-    if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-        ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
-    }
-    else {
-        if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
-            await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
+        const res = await db_playlists.insertPlaylist({
+            pid: pid,
+            username: ctx.currUser.username,
+            pstatus: ctx.vals.pstatus,
+            pcreatedate: date,
+            pmodifydate: date,
+            ptitle: ctx.vals.ptitle
+        })
+        if (res) {
+            ctx.flash = {message: ["success", "Successfully create playlist."]}
         }
-    }
+        else {
+            ctx.flash = {message: ["error", "Unsuccessfully create playlist."]}
+        }
+        ctx.redirect('/myplaylists')
+    })
 
-    ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
-    ctx.redirect('back')
-})
+    /**
+     * Delete a playlist.
+     */
+    router.post('/playlists/delete', mw.ifLogin(), async ctx => {
+        ctx
+            .validateBody('pid')
+            .isString()
+            .trim()
 
-/**
- * Delete tracks from a playlist.
- */
-router.post('/playlists/deletetracks', mw.ifLogin(), async ctx => {
-    ctx
-        .validateBody('pid')
-        .isString()
-        .trim()
-    ctx
-        .validateBody('tid')
-        .isString()
-        .trim()
+        await db_playlists.clearTracksOfPlaylist(ctx.vals.pid)
+        await db_playlists.deletePlaylist(ctx.vals.pid)
 
-    if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-        ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
-    }
-    await db_playlist.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
+        ctx.flash = {message: ["success", "Successfully create playlist."]}
 
-    ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
-    ctx.redirect('back')
-})
+        ctx.redirect('/myplaylists')
+    })
 
-module.exports = router
+    /**
+     * Add tracks to a playlist.
+     */
+    router.post('/playlists/addtracks', mw.ifLogin(), async ctx => {
+        ctx
+            .validateBody('pid')
+            .isString()
+            .trim()
+        ctx
+            .validateBody('tid')
+            .isString()
+            .trim()
+
+        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
+            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
+        }
+        else {
+            if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
+                await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
+            }
+        }
+
+        ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
+        ctx.redirect('back')
+    })
+
+    /**
+     * Delete tracks from a playlist.
+     */
+    router.post('/playlists/deletetracks', mw.ifLogin(), async ctx => {
+        ctx
+            .validateBody('pid')
+            .isString()
+            .trim()
+        ctx
+            .validateBody('tid')
+            .isString()
+            .trim()
+
+        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
+            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
+        }
+        await db_playlist.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
+
+        ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
+        ctx.redirect('back')
+    })
+
+    module.exports = router
