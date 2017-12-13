@@ -57,3 +57,27 @@ exports.presentArtists = function(x) {
     x.open_url = ``
     return x
 }
+
+exports.presentPlaylists = function(x) {
+    if (!x) return
+    x.open_url = ``
+    return x
+}
+
+exports.presentFavorite = function (x) {
+    if (!x) return
+    x.open_url = ``
+    return x
+}
+
+exports.presentFollower = function(x) {
+    if (!x) return
+    x.url = `/users/${x.follwer}`
+    return x
+}
+
+exports.presentFollowee = function(x) {
+    if (!x) return
+    x.url = `/users/${x.follwee}`
+    return x
+}

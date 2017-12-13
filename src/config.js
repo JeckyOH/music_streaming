@@ -1,6 +1,6 @@
 // Ensure require('dotenv').config() is run before this module is required
 
-const logger = require('logging')
+const logger = require('./logging')
 
 exports.NODE_ENV = process.env.NODE_ENV || 'development'
 exports.PORT = Number.parseInt(process.env.PORT, 10) || 3000

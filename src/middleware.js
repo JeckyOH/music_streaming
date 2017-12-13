@@ -29,6 +29,16 @@ exports.wrapCurrUser = function() {
     }
 }
 
+exports.ifLogin = function() {
+    return async (ctx, next) => {
+        if (!ctx.currUser) {
+            ctx.flash = {message: ["error", "Please login in first."]}
+            ctx.redirect('/login')
+        }
+        await next()
+    }
+}
+
 // Expose req.flash (getter) and res.flash = _ (setter)
 // Flash data persists in user's sessions until the next ~successful response
 exports.wrapFlash = function(cookieName = 'flash') {

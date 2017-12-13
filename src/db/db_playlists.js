@@ -10,6 +10,21 @@ const config = require('../config')
 const { pool } = require('./util')
 
 /**
+ * Get the playlist by username.
+ *
+ * @returns {Array<tracks>} rows
+ */
+exports.getPlaylistByUsername = async function(username) {
+    assert(typeof username === 'string')
+
+    return pool.many(sql`
+    SELECT * 
+    FROM "playlists"
+    WHERE username = ${username}
+  `)
+}
+
+/**
  * Get the tracks of an playlists.
  *
  * @returns {Array<tracks>} rows
@@ -47,8 +62,8 @@ exports.insertPlaylist = async function(playlist) {
     assert(typeof ptitle === 'string')
 
     return pool.one(sql`
-    INSERT INTO "playlists" (pid, ptitle, pstatus, pdate, username)
-    VALUES (${pid}, ${ptitle}, ${pstatus}, ${pdate}, ${username})
+    INSERT INTO "playlists" (pid, ptitle, pstatus, pcreatedate, pmodifydate, username)
+    VALUES (${pid}, ${ptitle}, ${pstatus}, ${pdate}, ${pdate}, ${username})
     RETURNING *
   `)
 }

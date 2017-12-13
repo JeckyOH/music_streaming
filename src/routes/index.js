@@ -48,8 +48,11 @@ function loadMessage() {
 // Useful route for quickly testing something in development
 // 404s in production
 router.get('/test', async ctx => {
-  ctx.assert(config.NODE_ENV === 'development', 404)
-  // ...
+    res = {
+        name: "Hello",
+        age: "world"
+    }
+    ctx.body = res
 })
 
 // //////////////////////////////////////////////////////////
