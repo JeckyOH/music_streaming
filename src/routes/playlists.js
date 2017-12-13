@@ -15,20 +15,28 @@ const belt = require('../belt')
  * Get someone`s playlists.
  */
 router.get('/playlists/:username', async ctx => {
-    ctx
-        .validateParam('username')
-        .isString()
-        .trim()
+        ctx
+            .validateParam('username')
+            .isString()
+            .trim()
 
-    const playlists = await db_playlists.getPlaylistByUsername(ctx.vals.username)
+        const playlists = await db_playlists.getPlaylistByUsername(ctx.vals.username)
 
-    if (ctx.currUser && (ctx.currUser.username == ctx.vals.username)) {
-        for (var idx = playlists.length; idx >= 0; idx--) {
-            if (playlists[idx].pstatus === "private") {
-                playlists.splice(idx, 1)
+        if (ctx.currUser && (ctx.currUser.username == ctx.vals.username)) {
+            for (var idx = playlists.length; idx >= 0; idx--) {
+                if (playlists[idx].pstatus === "private") {
+                    playlists.splice(idx, 1)
+                }
             }
         }
+        playlists.forEach(pre.presentPlaylists)
+
+        await ctx.render('playlist', {
+            title: "My Playlist",
+            playlists: playlists
+        })
     }
+)
 
     router.get('/myplaylists', mw.ifLogin(), async ctx => {
         const playlists = await db_playlists.getPlaylistByUsername(ctx.currUser.username)
