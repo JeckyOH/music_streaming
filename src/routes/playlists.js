@@ -10,7 +10,7 @@ const config = require('../config')
 const belt = require('../belt')
 
 router.get('/myplaylists', mw.ifLogin(), async ctx => {
-    const playlists = db_playlists.getPlaylistByUsername(ctx.currUser.username)
+    const playlists = await db_playlists.getPlaylistByUsername(ctx.currUser.username)
     playlists.forEach(pre.presentPlaylists)
 
     await ctx.render('playlist', {

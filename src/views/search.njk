@@ -56,7 +56,8 @@
                     <li class="active list-group-item tall"><a href="#section1">Tracks</a> </li>
                     <li class="list-group-item tall"><a href="#section2">Albums</a> </li>
                     <li class="list-group-item tall"><a href="#section3">Users</a> </li>
-                    <li class="list-group-item tall"><a href="#section4">Playlists</a> </li>
+                    <li class="list-group-item tall"><a href="#section4">Artists</a> </li>
+                    <li class="list-group-item tall"><a href="#section5">Playlists</a></li>
                 </ul>
             </nav>
             <div class="col-md-9">
@@ -96,14 +97,12 @@
                             <thead>
                             <tr style="color: black">
                                 <th>Name</th>
-                                <th>Artist</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for item in albums %}
                                 <tr>
                                     <td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>
-                                    <td class="content">{{ item.alid }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -135,7 +134,7 @@
                 </div>
 
                 <div class="panel panel-default" id="section4">
-                    <div class="panel-heading">Artist</div>
+                    <div class="panel-heading">Artists</div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
@@ -157,6 +156,25 @@
                     </div>
                 </div>
 
+                <div class="panel panel-default" id="section5">
+                    <div class="panel-heading">Playlists</div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr style="color: black">
+                                <th>Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in playlists %}
+                                <tr>
+                                    {#<td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>#}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
