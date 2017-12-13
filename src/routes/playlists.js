@@ -30,6 +30,8 @@ router.get('/playlists/:username', async ctx => {
         }
     }
 
+router.get('/myplaylists', mw.ifLogin(), async ctx => {
+    const playlists = await db_playlists.getPlaylistByUsername(ctx.currUser.username)
     playlists.forEach(pre.presentPlaylists)
 
     await ctx.render('playlist', {

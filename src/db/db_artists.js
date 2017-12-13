@@ -22,7 +22,7 @@ exports.getPopularArtists = async function () {
 }
 
 exports.getFavoritesByUsername = async function (username) {
-    assert(typeof username === string)
+    assert(typeof username === 'string')
     return pool.many(sql`
     SELECT aid, aname, adesc, frdate
     FROM "favorite" NATURAL JOIN "artists"

@@ -105,7 +105,7 @@ exports.deleteFollow = async function (follower, followee) {
  * @returns {Promise<*>}
  */
 exports.getFollowers = async function (followee) {
-    assert(typeof follwee === 'string')
+    assert(typeof followee === 'string')
 
     return pool.many(sql`
     SELECT follower_usrname as follower, fldate
@@ -120,7 +120,7 @@ exports.getFollowers = async function (followee) {
  * @returns {Promise<*>}
  */
 exports.getFollowees = async function (follower) {
-    assert(typeof follwer === 'string')
+    assert(typeof follower === 'string')
 
     return pool.many(sql`
     SELECT followee_usrname as followee, fldate

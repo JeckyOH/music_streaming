@@ -19,11 +19,11 @@ router.get('/follower/:username', async ctx => {
         .isString()
         .trim()
 
-    const follwers = await db_users.getFollowers(ctx.vals.username)
+    const followers = await db_users.getFollowers(ctx.vals.username)
     followers.forEach(pre.presentFollower)
 
     await ctx.render('follow', {
-        title: `${ctx.vals.username}'s Follwers}`,
+        title: `${ctx.vals.username}'s Followers}`,
         followers: followers
     })
 })
@@ -38,11 +38,11 @@ router.get('/followee/:username', async ctx => {
         .isString()
         .trim()
 
-    const follwees = await db_users.getFollowees(ctx.vals.username)
+    const followees = await db_users.getFollowees(ctx.vals.username)
     followees.forEach(pre.presentFollowee)
 
     await ctx.render('follow', {
-        title: `${ctx.vals.username}'s Follwees}`,
+        title: `${ctx.vals.username}'s Followees}`,
         followees: followees
     })
 })
