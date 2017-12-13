@@ -66,7 +66,7 @@ exports.insertPlaylist = async function(playlist) {
     pid = playlist.pid
     username = playlist.username
     pstatus = playlist.pstatus || 'public'
-    pdate = (new Data()).toLocaleString()
+    pdate = (new Date()).toLocaleString()
     ptitle = playlist.ptitle || 'default'
 
     assert(typeof pid === 'string')

@@ -6,6 +6,7 @@
             /*background-image: url("/img/login.jpg");*/
             /*background-size: cover;*/
         /*}*/
+
     </style>
 {% endblock %}
 
@@ -19,27 +20,63 @@
         </div>
         <h2>My Playlist</h2>
         <br>
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
             {% for item in playlists %}
-            <h2>{{ item.ptitle }}</h2>
             <table class="table table-hover">
                 <thead>
-
+                <tr>
+                    <th >Name</th>
+                    <th style="text-align:right">Last modified date</th>
+                </tr>
                 </thead>
                 <tbody>
-                {% for track in item %}
-                    <tr>
-                        <td class="content">{{ track.ttitle }}</a></td>
-                        <td class="content"><button class="btn btn-default">
-                                <span class="glyphicon glyphicon-play"></span></button></td>
-                    </tr>
-                {% endfor %}
+                <tr>
+                    <td><a href="#">{{ item.ptitle }}</a></td>
+                    <td style="text-align:right">{{ item.pmodifydate }}</td>
+                </tr>
                 </tbody>
             </table>
             {% endfor %}
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-plus"></span> Add a new Playlist
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/playlists/create" method="post">
+                                <div class="form-group">
+                                    <lable>Playlist Name</lable>
+                                    <input type="text" class="form-control" placeholder="Playlist Name"  name="ptitle" aria-describedby="basic-addon1">
+                                </div>
+                                <p>Playlist Status</p>
+                                <div class="radio">
+                                    <label><input type="radio" name="pstatus" value="public" checked>Public</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="pstatus" value="private">Private</label>
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Create</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

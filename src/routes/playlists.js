@@ -23,8 +23,8 @@ router.get('/playlists/:username', async ctx => {
         const playlists = await db_playlists.getPlaylistByUsername(ctx.vals.username)
 
         if (ctx.currUser && (ctx.currUser.username == ctx.vals.username)) {
-            for (var idx = playlists.length; idx >= 0; idx--) {
-                if (playlists[idx].pstatus === "private") {
+            for (idx = playlists.length - 1; idx >= 0; idx--) {
+                if (playlists[idx].pstatus == "private") {
                     playlists.splice(idx, 1)
                 }
             }
@@ -54,7 +54,7 @@ router.get('/playlists/:username', async ctx => {
     router.post('/playlists/create', mw.ifLogin(), async ctx => {
         ctx
             .validateBody('ptitle')
-            .isString
+            .isString()
             .trim()
         ctx
             .validateBody('pstatus')
