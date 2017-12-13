@@ -67,7 +67,7 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
 
     // RESPOND
     ctx.flash = { message: ['success', 'User info updated'] }
-    ctx.redirect(`/profile/${username}`)
+    ctx.redirect(`/profile/${ctx.vals.username}`)
 })
 
 module.exports = router

@@ -22,7 +22,7 @@ router.get('/favorites/:username', async ctx => {
     artists.forEach(pre.presentFavorite)
 
     await ctx.render('favorite', {
-        title: `${ctx.vals.username}'s Favorite Artists`
+        title: `${ctx.vals.username}'s Favorite Artists`,
         artists: artists,
     })
 })
