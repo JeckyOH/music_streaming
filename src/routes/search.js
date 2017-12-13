@@ -38,11 +38,15 @@ router.get('/search', async ctx => {
     const related_users = await db.getUsersByKeyword(ctx.vals.keyword, config.FUZZING_SEARCH_LIMIT)
     related_users.forEach(pre.presentUser)
 
+    const related_playlists = await db.getPlaylistByKeyword(ctx.vals.keyword, config.FUZZING_SEARCH_LIMIT)
+    related_playlists.forEach(pre.presentPlaylists)
+
     await ctx.render('search', {
         tracks: related_trakcks,
         albums: related_albums,
         artists: related_artists,
-        users: related_users
+        users: related_users,
+        playlists: related_playlists
     })
 })
 

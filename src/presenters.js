@@ -41,14 +41,15 @@ exports.presentMessage = function(x) {
 
 exports.presentTracks = function(x) {
     if (!x) return
-    x.play_url = ``
+    x.play_url = `/playtrack`
     x.open_url = ``
     return x
 }
 
 exports.presentAlbums = function(x) {
     if (!x) return
-    x.open_url = ``
+    x.open_url = `/album/${x.alid}`
+    delete alid
     return x
 }
 
@@ -60,7 +61,7 @@ exports.presentArtists = function(x) {
 
 exports.presentPlaylists = function(x) {
     if (!x) return
-    x.open_url = ``
+    x.open_url = `/playlist/${x.pid}`
     return x
 }
 

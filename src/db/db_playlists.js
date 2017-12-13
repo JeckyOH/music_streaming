@@ -19,7 +19,22 @@ exports.getTop100Playlists = async function() {
     SELECT * 
     FROM (SELECT pid, count(*) as counts FROM playlists_playing GROUP BY pid ORDER BY counts DESC LIMIT 100) 
         AS top100 NATURAL JOIN playlists
+    WHERE playlists.pstatus = 'public'
   `)
+}
+
+/**
+ * Get the playlist by pid.
+ * @param pid
+ * @returns {Promise<*>}
+ */
+exports.getPlaylistByPid = async function (pid) {
+    assert(typeof pid === 'string')
+    return pool.one(sql`
+    SELECT *
+    FROM "playlists"
+    WHERE pid = ${pid}
+    `)
 }
 
 /**
