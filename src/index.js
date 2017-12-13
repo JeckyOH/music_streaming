@@ -66,6 +66,12 @@ app.use(async (ctx, next) => {
 app.use(require('./routes').routes())
 app.use(require('./routes/authentication').routes())
 app.use(require('./routes/search').routes())
+app.use(require('./routes/favorite').routes())
+app.use(require('./routes/follow').routes())
+app.use(require('./routes/playlists').routes())
+app.use(require('./routes/tracks').routes())
+app.use(require('./routes/users').routes())
+
 
 // //////////////////////////////////////////////////////////
 

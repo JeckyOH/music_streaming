@@ -62,3 +62,5 @@ router.post('/follow', mw.ifLogin(), async ctx => {
     ctx.flash = {message : ["success", `Successfully follow user.`]}
     ctx.redirect('back')
 })
+
+module.exports = router
