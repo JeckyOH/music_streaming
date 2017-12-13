@@ -1,0 +1,14 @@
+{% if error %}
+<div class = "alert alert-error">
+    <button type="button" class="close alert-bottom" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    {{ error }}
+</div>
+
+{% else %}
+<iframe src="https://open.spotify.com/embed?uri=spotify%3Atrack%3A{{ tid }}"
+        width="500" height="80"
+        frameborder="0"
+        allowtransparency="true">
+</iframe>
+{% endif %}

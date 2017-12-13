@@ -3,11 +3,12 @@ const assert = require('better-assert')
 const router = require('koa-router')()
 const debug = require('debug')('app:routes:index')
 // 1st party
-const db = require('../db')
+const db_tracks = require('../db/db_tracks')
 const pre = require('../presenters')
 const mw = require('../middleware')
 const config = require('../config')
 const belt = require('../belt')
+const cache = require('../cache')
 
 //
 // The index.js routes file is mostly a junk drawer for miscellaneous
@@ -48,19 +49,25 @@ function loadMessage() {
 // Useful route for quickly testing something in development
 // 404s in production
 router.get('/test', async ctx => {
-    res = {
-        name: "Hello",
-        age: "world"
-    }
-    ctx.body = res
+  res = {
+    name: "Hello",
+    age: "world"
+  }
+  ctx.body = res
 })
 
 // //////////////////////////////////////////////////////////
 
 // Show homepage
 router.get('/', async ctx => {
+  const random_tracks = await db_tracks.getRandom100Tracks()
   await ctx.render('index', {
-    title: "HelloWorld",
+      title: "Music Streaming Service",
+      daily_tracks: random_tracks,
+      top100_tracks: cache.get('top100_tracks'),
+      top100_playlists: cache.get('top100_playlists'),
+      popular_artists: cache.get('popular_artists'),
+      popular_users: cache.get('popular_users')
   })
 })
 

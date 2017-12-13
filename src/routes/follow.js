@@ -47,6 +47,9 @@ router.get('/followee/:username', async ctx => {
     })
 })
 
+/**
+ * Follow an user.
+ */
 router.post('/follow', mw.ifLogin(), async ctx => {
     ctx.validateBody('followee')
         .required('Please specify the username of followee.')
@@ -55,12 +58,25 @@ router.post('/follow', mw.ifLogin(), async ctx => {
 
     const exist = await db_users.existFollow(ctx.currUser.username, ctx.vals.followee)
     if (exist) {
-        ctx.flash = {message : ["info", "Follow exist. Nothing updated."]}
-        ctx.redirect('back')
+        ctx.response.status = 400
+        ctx.body = "This user has already been followed."
     }
     await db_users.insertFollow(ctx.currUser.username, ctx.vals.followee)
-    ctx.flash = {message : ["success", `Successfully follow user.`]}
-    ctx.redirect('back')
+    ctx.response.status = 200
+})
+
+/**
+ * Unfollow an user.
+ */
+router.post('/unfollow', mw.ifLogin(), async ctx => {
+    ctx.validateBody('followee')
+        .required('Please specify the username of followee.')
+        .isString()
+        .trim()
+
+    await db_users.deleteFollow(ctx.currUser.username, ctx.vals.followee)
+
+    ctx.response.status = 200
 })
 
 module.exports = router

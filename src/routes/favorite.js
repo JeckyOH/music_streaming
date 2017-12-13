@@ -22,7 +22,7 @@ router.get('/favorites/:username', async ctx => {
     artists.forEach(pre.presentFavorite)
 
     await ctx.render('favorite', {
-        title: `${ctx.vals.username}'s Favorite Artists`
+        title: `${ctx.vals.username}'s Favorite Artists`,
         artists: artists,
     })
 })
@@ -44,6 +44,20 @@ router.post('/favorites', mw.ifLogin(), async ctx => {
     await db_artists.insertFavorite(ctx.currUser.username, ctx.vals.aid)
     ctx.flash = {message : ["success", "Successfully mark an artist as favorite."]}
     ctx.redirect('back')
+})
+
+/**
+ * Unfavorite an artist.
+ */
+router.post('/unfavorites', mw.ifLogin(), async ctx => {
+    ctx.validateBody('aid')
+        .required('Please specify the ID of artist.')
+        .isString()
+        .trim()
+
+    await db_users.deleteFollow(ctx.currUser.username, ctx.vals.followee)
+
+    ctx.response.status = 200
 })
 
 module.exports = router

@@ -9,6 +9,18 @@ const belt = require('../belt')
 const config = require('../config')
 const { pool } = require('./util')
 
+/**
+ * Get top 100 popular artists, which means these artists are favorited by most people.
+ * @returns {Promise<*>}
+ */
+exports.getPopularArtists = async function () {
+    return pool.many(sql`
+    SELECT * 
+    FROM (SELECT aid, count(*) as counts FROM "favorite" GROUP BY aid ORDER BY counts DESC LIMIT 100) 
+        AS top100 NATURAL JOIN artists
+  `)
+}
+
 exports.getFavoritesByUsername = async function (username) {
     assert(typeof username === string)
     return pool.many(sql`

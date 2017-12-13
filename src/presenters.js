@@ -16,7 +16,7 @@ exports.presentUser = function(x) {
   if (!x) return
   // Fix embedded json representation
   delete x.password
-  x.url = `/users/${x.username}`
+  x.url = `/profile/${x.username}`
   return x
 }
 

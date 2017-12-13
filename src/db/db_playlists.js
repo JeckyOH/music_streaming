@@ -10,6 +10,19 @@ const config = require('../config')
 const { pool } = require('./util')
 
 /**
+ * Get the top 100 playing playlists.
+ *
+ * @returns {Array<tracks>} rows
+ */
+exports.getTop100Playlists = async function() {
+    return pool.many(sql`
+    SELECT * 
+    FROM (SELECT pid, count(*) as counts FROM playlists_playing GROUP BY pid ORDER BY counts DESC LIMIT 100) 
+        AS top100 NATURAL JOIN playlists
+  `)
+}
+
+/**
  * Get the playlist by username.
  *
  * @returns {Array<tracks>} rows
@@ -94,3 +107,100 @@ exports.clearTracksOfPlaylist = async function(playlist_id) {
   `)
 }
 
+/**
+ * Check whether a playlist has already had a track.
+ *
+ * @param playlist_id
+ * @param tid
+ * @returns {Promise<void>}
+ */
+exports.existPlaylistContains = async function (playlist_id, tid) {
+    assert(typeof playlist_id === 'string')
+    assert(typeof tid === 'string')
+
+    res = await pool.one(sql`
+    SELECT * 
+    FROM "playlist_contains"
+    WHERE pid = ${playlist_id} and tid = ${tid}
+    `)
+    if(res) return true
+    return false
+}
+
+exports.getMaxInPlaylist = async function (playlist_id) {
+    assert(typeof playlist_id === 'string')
+
+    const { max } = await pool.one(sql`
+    SELECT MAX(sequence_in_playlist) AS "max"
+    FROM "playlist_contains"
+    WHERE pid = ${playlist_id}
+  `)
+    return count
+}
+
+exports.checkOwnership = async function (playlist_id, username) {
+    assert(typeof playlist_id === 'string')
+    assert(typeof username === 'string')
+
+    const {res_username} = pool.one(sql`
+    SELECT username
+    FROM "playlists"
+    WHERE pid = ${playlist_id}
+  `)
+    if (res_username && (username == res_username) ) return true
+    return false
+}
+
+/**
+ * Insert into playlist_contains.
+ * @param playlist_id
+ * @param tid
+ */
+exports.insertPlaylistContains = async function (playlist_id, tid) {
+    assert(typeof playlist_id === 'string')
+    assert(typeof tid === 'string')
+
+    const max = await exports.getMaxInPlaylist(playlist_id)
+
+    return pool.one(sql`
+    INSERT INTO "playlist_contains" (pid, tid, sequence_in_playlist)
+    VALUES (${playlist_id}, ${tid}, ${max + 1})
+    RETURNING *
+  `)
+}
+
+/**
+ * Delete a track from a playlist.
+ *
+ * @param playlist_id
+ * @param tid
+ * @returns {Promise<void>}
+ */
+exports.deletePlaylistContains = async function (playlist_id, tid) {
+    assert(typeof playlist_id === 'string')
+    assert(typeof tid === 'string')
+
+    return pool.one(sql`
+    DELETE FROM "playlist_contains"
+    WHERE pid = (${playlist_id} and tid = ${tid}
+    `)
+}
+
+/**
+ * Insert a record of playlist playing.
+ *
+ * @param username
+ * @param playlist_id
+ * @returns {Promise<*>}
+ */
+exports.insertPlaylistsPlaying = async function (username, playlist_id) {
+    assert(typeof username === 'string')
+    assert(typeof playlist_id === 'string')
+
+    const datetime = (new Date()).toLocaleString()
+    return pool.one(sql`
+    INSERT INTO "playlists_playing" (username, pid, pptime)
+    VALUES(${username}, ${playlist_id}, ${datetime})
+    RETURNING *
+    `)
+}

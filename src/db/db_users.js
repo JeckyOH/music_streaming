@@ -53,7 +53,7 @@ exports.updateUserBasicInfo = async function(username, fields) {
 /**
  * Update the user`s password.
  */
-exports.updateUserBasicInfo = async function(username, password) {
+exports.updatePassword = async function(username, password) {
     assert(typeof username === 'string')
     assert(typeof password === 'string')
     const digest = await belt.hashPassword(password)
@@ -129,6 +129,12 @@ exports.getFollowees = async function (follower) {
     `)
 }
 
+/**
+ * Check whether follow relation has existed.
+ * @param follower
+ * @param followee
+ * @returns {Promise<boolean>}
+ */
 exports.existFollow = async function (follower, followee) {
     assert(typeof follower === 'string')
     assert(typeof followee === 'string')
@@ -140,6 +146,18 @@ exports.existFollow = async function (follower, followee) {
     `)
     if(res) return true
     return false
+}
+
+/**
+ * Get the most popular users, which means these users are followed by most people.
+ * @returns {Promise<*>}
+ */
+exports.getPopularUsers = async function () {
+    return pool.many(sql`
+    SELECT * 
+    FROM (SELECT followee_usrname, count(*) as counts FROM "follow" GROUP BY followee_usrname ORDER BY counts DESC LIMIT 100) 
+        AS top100 JOIN users ON users.username = top100.followee_usrname
+  `)
 }
 
 

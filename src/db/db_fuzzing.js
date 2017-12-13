@@ -13,11 +13,6 @@ const { pool } = require('./util')
  * Get the tracks according to the keyword. May involves the ttitle, tgenre.
  */
 exports.getTracksByKeyword = async function(keyword, limit = 'ALL', offset = 0){
-    console.log(sql `SELECT * 
-    FROM tracks
-    WHERE ttitle LIKE '%${keyword}%' or tgenre LIKE '%${keyword}%'
-    LIMIT ${limit} OFFSET ${offset}`)
-
     return pool.many(sql `
     SELECT * 
     FROM tracks
