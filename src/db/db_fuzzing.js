@@ -56,3 +56,19 @@ exports.getUsersByKeyword = async function(keyword, limit = 'ALL', offset = 0){
     LIMIT ${limit} OFFSET ${offset}
     `)
 }
+
+/**
+ * get the playlists according to the keywork.
+ * @param keyword
+ * @param limit
+ * @param offset
+ * @returns {Promise<*>}
+ */
+exports.getPlaylistByKeyword = async function (keyword, limit = 'ALL', offset = 0) {
+    return pool.many(sql`
+    SELECT *
+    FROM "playlists"
+    WHERE ptitle LIKE ${'%'+ keyword + '%'} 
+    LIMIT ${limit} OFFSET ${offset}
+    `)
+}

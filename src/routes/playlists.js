@@ -113,7 +113,7 @@ router.post('/playlists/addtracks', mw.ifLogin(), async ctx => {
         .trim()
 
     if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-        ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
+        ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
     }
     else {
         if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
@@ -145,6 +145,41 @@ router.post('/playlists/deletetracks', mw.ifLogin(), async ctx => {
 
     ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
     ctx.redirect('back')
+})
+
+/**
+ * Get the information of a playlist.
+ */
+router.get('/playlist/:pid', async ctx => {
+    ctx
+        .validateBody('pid')
+        .isString()
+        .trim()
+    if (ctx.currUser) {
+        if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
+            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
+            ctx.redirect('back')
+        }
+        else {
+            const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+            ctx.render('playlist_info', {
+                tracks: tracks
+            })
+        }
+    }
+    else {
+        const playlist = await db_playlists.getPlaylistByPid(ctx.vals.pid)
+        if(playlist && playlist.pstatus == 'public'){
+            const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+            ctx.render('playlist_info', {
+                tracks: tracks
+            })
+        }
+        else {
+            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
+            ctx.redirect('back')
+        }
+    }
 })
 
 module.exports = router

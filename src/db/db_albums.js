@@ -18,7 +18,7 @@ exports.getTracksByAlbum = async function(album_id) {
     assert(typeof album_id === 'string')
 
     return pool.many(sql`
-    SELECT * 
+    SELECT *
     FROM "album_contains" NATURAL JOIN "tracks"
     WHERE alid = ${album_id}
   `)
