@@ -19,7 +19,22 @@ exports.getTracksByAlbum = async function(album_id) {
 
     return pool.many(sql`
     SELECT *
-    FROM "album_contains" NATURAL JOIN "tracks"
+    FROM "album_contains" NATURAL JOIN "tracks" NATURAL JOIN "artists"
+    WHERE alid = ${album_id}
+  `)
+}
+
+/**
+ * Get the album by alid.
+ *
+ * @returns {Array<tracks>} rows
+ */
+exports.getAlbumById = async function(album_id) {
+    assert(typeof album_id === 'string')
+
+    return pool.one(sql`
+    SELECT *
+    FROM "albums"
     WHERE alid = ${album_id}
   `)
 }

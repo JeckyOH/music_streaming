@@ -10,6 +10,19 @@ const config = require('../config')
 const { pool } = require('./util')
 
 /**
+ * Get an artist.
+ */
+exports.getArtistInfo =  async function (aid) {
+    assert(typeof aid === 'string')
+
+    return pool.one(sql` 
+    SELECT *
+    FROM artists
+    WHERE aid = ${aid}
+    `)
+}
+
+/**
  * Get top 100 popular artists, which means these artists are favorited by most people.
  * @returns {Promise<*>}
  */

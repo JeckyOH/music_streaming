@@ -58,7 +58,7 @@ exports.getUsersByKeyword = async function(keyword, limit = 'ALL', offset = 0){
 }
 
 /**
- * get the playlists according to the keywork.
+ * get the playlists according to the keyword.
  * @param keyword
  * @param limit
  * @param offset
@@ -72,3 +72,4 @@ exports.getPlaylistByKeyword = async function (keyword, limit = 'ALL', offset = 
     LIMIT ${limit} OFFSET ${offset}
     `)
 }
+

@@ -61,8 +61,8 @@ exports.getTracksByPlaylist = async function(playlist_id) {
     assert(typeof playlist_id === 'string')
 
     return pool.many(sql`
-    SELECT * 
-    FROM "playlist_contains" NATURAL JOIN "tracks"
+    SELECT pid, tid, ttitle, aid, aname, tduration, tgenre
+    FROM "playlist_contains" NATURAL JOIN "tracks" NATURAL JOIN "artists"
     WHERE pid = ${playlist_id}
   `)
 }
@@ -158,12 +158,20 @@ exports.checkOwnership = async function (playlist_id, username) {
     assert(typeof username === 'string')
 
     const res = pool.one(sql`
+<<<<<<< HEAD
     SELECT username
+=======
+    SELECT *
+>>>>>>> e2a8667291fafe7c61a5c14d557dbec5fdc60d1b
     FROM "playlists"
     WHERE pid = ${playlist_id}
   `)
     if (res && (username == res.username) ) return true
+<<<<<<< HEAD
     return false
+=======
+    else return false
+>>>>>>> e2a8667291fafe7c61a5c14d557dbec5fdc60d1b
 }
 
 /**

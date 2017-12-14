@@ -109,6 +109,9 @@
                 success: function (res) {
                     $("#playwindow").html(res)
                     $("#playdiv").show()
+                },
+                error: function (xmlhttp) {
+                    alert(xmlhttp.responseText)
                 }
             })
         }

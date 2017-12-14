@@ -156,8 +156,14 @@ router.get('/playlist/:pid', async ctx => {
         .isString()
         .trim()
     if (ctx.currUser) {
+<<<<<<< HEAD
         if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
             ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
+=======
+        const owner = await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username)
+        if( owner == false) {
+            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
+>>>>>>> e2a8667291fafe7c61a5c14d557dbec5fdc60d1b
             ctx.redirect('back')
         }
         else {
