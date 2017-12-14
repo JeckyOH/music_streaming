@@ -2,35 +2,12 @@
 
 {% block more_heads  %}
     <style>
-        .tall {
-            padding: 20px;
-            font-size: large;
-            text-align: center;
-            opacity: 0.8;
-            border-right: 0;
-            border-top: 0;
-            border-left: 0;
-            border-bottom: 0;
-            width: 180%;
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
         }
-        .content {
-            color: black;
-            opacity: 0.8;
-            border-right: 0;
-            border-top: 0;
-            border-left: 0;
-            border-bottom: 0;
-        }
-        .panel-heading {
-            font-size: x-large;
-            border: 0px solid transparent;
-        }
-        .panel {
-            border: 1px solid transparent;
-            color: #ffffff;
-            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-            opacity:0.7;
+        .font {
+            font-size: medium;
         }
     </style>
 {% endblock %}
@@ -48,21 +25,26 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr style="color: black">
-                                    <th>Name</th>
-                                    <th>Artist</th>
-                                    <th>Play</th>
-                                    <th>Add</th>
+                                    <th class="font">Name</th>
+                                    <th class="font">Artist</th>
+                                    <th class="font">Play</th>
+                                    <th class="font">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    {% for item in albums %}
+                                    {% for item in tracks %}
                                         <tr>
-                                            <td class="content">{{ item.ttitle }}</td>
-                                            <td class="content">{{ item.tid }}</td>
-                                            <td class="content"><button class="btn btn-default">
+                                            <td class="font">{{ item.ttitle }}</td>
+                                            <td class="font">{{ item.tid }}</td>
+                                            <td><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
-                                            <td class="content"><button class="btn btn-default">
-                                                    <span class="glyphicon glyphicon-minus"></span></button></td>
+                                            <td style="font-size: medium; text-align: center">
+                                                <form action="/playlists/deletetracks" method="post">
+                                                    <input class="hidden" name="tid" value="{{ item.tid }}">
+                                                    <input class="hidden" name="pid" value="{{ item.pid }}">
+                                                    <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                             </tbody>

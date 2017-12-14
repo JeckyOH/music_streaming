@@ -35,7 +35,7 @@ router.get('/album/:alid', async ctx => {
     }
 
     await ctx.render('album', {
-        alname: album.alname,
+        alname: album.altitle,
         tracks: tracks
     })
 })

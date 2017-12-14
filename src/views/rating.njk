@@ -2,10 +2,13 @@
 
 {% block more_heads  %}
     <style>
-        /*body {*/
-            /*background-image: url("/img/login.jpg");*/
-            /*background-size: cover;*/
-        /*}*/
+        .font {
+            font-size: medium;
+        }
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
     </style>
 {% endblock %}
 
@@ -16,26 +19,28 @@
             <br>
             <br>
             <h1>{{ user.username }}</h1>
-            <h2>My Rating</h2>
         </div>
+        <h2>My Rating</h2>
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            {% for item in playlists %}
             <h2>{{ item.ptitle }}</h2>
             <table class="table table-hover">
                 <thead>
+                <tr>
+                    <th class="font">Track</th>
+                    <th class="font">Score</th>
+                </tr>
                 </thead>
                 <tbody>
-                {% for track in item %}
+                {% for item in ratings %}
                     <tr>
-                        <td class="content">{{ track.ttitle }}</a></td>
+                        <td class="content">{{ item.ttitle }}</a></td>
                         <td class="content"><button class="btn btn-default">
-                                <span class="glyphicon glyphicon-play"></span></button></td>
+                                {{ item.ttitle }}<span class="badge">{{ item.score }}</span></button></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            {% endif %}
         </div>
         <div class="col-md-3"></div>
     </div>
