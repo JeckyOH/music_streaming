@@ -151,6 +151,34 @@ router.get('/playlist/:pid', async ctx => {
     await ctx.render('playlist_info', {
         tracks: tracks
     })
+
+    // if (ctx.currUser) {
+    //     const owner = await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username)
+    //     if( owner == false) {
+    //         ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
+    //         ctx.redirect('back')
+    //     }
+    //     else {
+    //         const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+    //         ctx.render('playlist_info', {
+    //             tracks: tracks
+    //         })
+    //     }
+    // }
+    // else {
+    //     const playlist = await db_playlists.getPlaylistByPid(ctx.vals.pid)
+    //     if(playlist && playlist.pstatus == 'public'){
+    //         const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+    //         ctx.render('playlist_info', {
+    //             tracks: tracks
+    //         })
+    //     }
+    //     else {
+    //         ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
+    //         ctx.redirect('back')
+    //     }
+    // }
+
 })
 
 module.exports = router

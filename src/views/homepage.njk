@@ -28,7 +28,7 @@
                             <li class="list-group-item font"><a href="/favorites/{{ user.username }}">My Favorite Artists</a> </li>
                             <li class="list-group-item font"><a href="/follower/{{ user.username }}">My Fans</a> </li>
                             <li class="list-group-item font"><a href="/followee/{{ user.username }}">My Follows</a> </li>
-                            <li class="list-group-item font"><a href="/rating">My Ratings</a> </li>
+                            <li class="list-group-item font"><a href="/rating/{{ user.username }}">My Ratings</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -44,7 +44,118 @@
                 <div class="tab-content">
                     <div id="myMoment" class="tab-pane fade in active">
                         <h3>My Moment</h3>
-                        <p>List most recent playlsit, artist, follow, rating</p>
+                        <br>
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Following
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {% for item in following %}
+                                                <li class="list-group-item">{{ item.username }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Followed
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {% for item in followed %}
+                                                <li class="list-group-item">{{ item.username }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Rating
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {% for item in rating %}
+                                                <li class="list-group-item">{{ item.ttitle }}<span class="badge">{{ item.score }}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading4">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                            Favorite
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {% for item in favorite %}
+                                                <li class="list-group-item">{{ item.aname }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading5">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                            Played Tracks
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            {% for item in tracksplayed %}
+                                                <li class="list-group-item">{{ item.ttitle }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading6">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseT6" aria-expanded="false" aria-controls="collapse6">
+                                        Played Playlists
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading6">
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        {% for item in playlistsplayed %}
+                                            <li class="list-group-item">{{ item.ptitle }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
                     </div>
                     <div id="friendCircle" class="tab-pane fade">
                         <h3>Friend Circle</h3>
@@ -56,20 +167,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading size">Recommend</div>
                     <div class="panel-body">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {#{% for item in albums %}#}
-                                {#<tr>#}
-                                    {#<td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>#}
-                                    {#<td class="content">{{ item.alid }}</td>#}
-                                {#</tr>#}
-                            {#{% endfor %}#}
-                            </tbody>
-                        </table>
+                            <div class="panel-body">
+                                {% for item in recommend_users %}
+                                    <button class="btn btn-default"
+                                            style="font-size: medium; border: none"><a href="/profile/{{ item.username }}" >
+                                            {{ item.username }}</a></button><br>
+                                {% endfor %}
+                            </div>
                     </div>
                 </div>
             </div>

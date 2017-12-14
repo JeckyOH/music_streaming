@@ -21,10 +21,16 @@ router.get('/profile/:username', async ctx => {
     const basic_info = await db_users.getUserByUname(ctx.vals.username)
     pre.presentUser(basic_info)
 
-    //TODO Get follow favirote rating etc.
+    const moments = await db_users.getMomentByUsername(ctx.vals.username)
 
-    await ctx.render('profile', {
+    await ctx.render('user_info', {
         basic_info: basic_info,
+        following: moments.following,
+        followed: moments.followed,
+        rating: moments.rating,
+        favorite: moments.favorite,
+        tracksplayed: moments.tracksplayed,
+        playlistsplayed: moments.playlistsplayed
     })
 })
 
