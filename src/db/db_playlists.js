@@ -17,7 +17,7 @@ const { pool } = require('./util')
 exports.getTop100Playlists = async function() {
     return pool.many(sql`
     SELECT * 
-    FROM (SELECT pid, count(*) as counts FROM playlists_playing GROUP BY pid ORDER BY counts DESC LIMIT 100) 
+    FROM (SELECT pid, count(*) as counts FROM playlists_playing GROUP BY pid ORDER BY counts DESC LIMIT 20) 
         AS top100 NATURAL JOIN playlists
     WHERE playlists.pstatus = 'public'
   `)

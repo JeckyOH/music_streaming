@@ -16,7 +16,7 @@ exports.getRandom100Tracks = async function () {
     return pool.many(sql`
     SELECT * 
     FROM tracks
-    LIMIT 100 OFFSET 0
+    LIMIT 20 OFFSET 0
   `)
 }
 
@@ -28,7 +28,7 @@ exports.getRandom100Tracks = async function () {
 exports.getTop100Tracks = async function() {
     return pool.many(sql`
     SELECT * 
-    FROM (SELECT tid, count(*) as counts FROM tracks_playing GROUP BY tid ORDER BY counts DESC LIMIT 100) 
+    FROM (SELECT tid, count(*) as counts FROM tracks_playing GROUP BY tid ORDER BY counts DESC LIMIT 20) 
         AS top100 NATURAL JOIN tracks
   `)
 }

@@ -155,7 +155,7 @@ exports.existFollow = async function (follower, followee) {
 exports.getPopularUsers = async function () {
     return pool.many(sql`
     SELECT * 
-    FROM (SELECT followee_usrname, count(*) as counts FROM "follow" GROUP BY followee_usrname ORDER BY counts DESC LIMIT 100) 
+    FROM (SELECT followee_usrname, count(*) as counts FROM "follow" GROUP BY followee_usrname ORDER BY counts DESC LIMIT 20) 
         AS top100 JOIN users ON users.username = top100.followee_usrname
   `)
 }
