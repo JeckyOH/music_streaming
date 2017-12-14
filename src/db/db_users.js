@@ -238,6 +238,72 @@ exports.getMomentByUsername = async function (username) {
     }
 }
 
+/**
+ * Get a user`s friend circle.
+ * @param username
+ * @returns {Promise<{following: *, followed: *, rating: *, favorite: *, tracksplayed: *, playlistsplayed: *}>}
+ */
+exports.getFriendCircleByUsername = async function (username) {
+    assert(typeof username === 'string')
+
+    const following = await pool.many(sql`
+    SELECT f2.followee_usrname as followee_usrname, f2.fldate as fldate
+    FROM follow f1 JOIN follow f2 ON f1.followee_usrname = f2.follower_usrname
+    WHERE f1.follower_usrname = ${username}
+    ORDER BY fldate DESC
+    LIMIT 20
+    `)
+
+    const followed = await pool.many(sql`
+    SELECT f2.followee_usrname as followee_usrname, f2.follower_usrname as follower_usrname, f2.fldate as fldate
+    FROM follow f1 JOIN follow f2 ON f1.followee_usrname = f2.followee_usrname
+    WHERE f1.follower_usrname = ${username}
+    ORDER BY fldate DESC
+    LIMIT 20
+    `)
+
+    const rating = await pool.many(sql`
+    SELECT username, tid, ttitle, rtime, score
+    FROM follow JOIN rating ON follow.followee_usrname = rating.username NATURAL JOIN tracks
+    WHERE follow.follower_usrname = ${username}
+    ORDER BY rtime DESC
+    LIMIT 20
+    `)
+
+    const favorite = await pool.many(sql`
+    SELECT username, aid, frdate, aname
+    FROM follow JOIN favorite ON follow.followee_usrname =favorite.username NATURAL JOIN artists
+    WHERE username = ${username}
+    ORDER BY frdate DESC
+    LIMIT 20
+    `)
+
+    const tracksplayed = await pool.many(sql`
+    SELECT username, tid, tptime, ttitle
+    FROM follow JOIN tracks_playing ON followee_usrname = tracks_playing.username NATURAL JOIN tracks
+    WHERE username = ${username}
+    ORDER BY tptime DESC
+    LIMIT 20
+    `)
+
+    const playlistsplayed = await pool.many(sql`
+    SELECT username, pid, pptime, ptitle
+    FROM follow JOIN playlists_playing ON follow.followee_usrname = playlists_playing.username NATURAL JOIN playlists
+    WHERE username = ${username}
+    ORDER BY pptime DESC
+    LIMIT 20
+    `)
+
+    return {
+        following: following,
+        followed: followed,
+        rating: rating,
+        favorite: favorite,
+        tracksplayed: tracksplayed,
+        playlistsplayed: playlistsplayed
+    }
+}
+
 
 
 
