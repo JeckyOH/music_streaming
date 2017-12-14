@@ -12,14 +12,22 @@ const belt = require('../belt')
 /**
  * get information of an album.
  */
-router.get('/album:alid', async ctx => {
+router.get('/album/:alid', async ctx => {
     ctx
         .validateParam('alid')
         .required('Which album do you want to look into?')
         .isString()
         .trim()
 
-    tracks = await db_albums.getTracksByAlbum(cctx.vals.alid)
+    album = await db_albums.getTracksByAlbum(ctx.vals.alid)
+
+    if(!album) {
+        ctx.flash = {message: ["error", "Album does not exist."]}
+        ctx.redirect('back')
+    }
+
+    tracks = await db_albums.getTracksByAlbum(ctx.vals.alid)
+    tracks.forEach(pre.presentTracks)
 
     if(!tracks) {
         ctx.flash = {message: ["error", "Failed to get information of this album."]}
@@ -27,7 +35,7 @@ router.get('/album:alid', async ctx => {
     }
 
     ctx.render('album', {
-        alid: ctx.vals.alid,
+        alname: album.alname,
         tracks: tracks
     })
 })

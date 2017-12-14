@@ -14,9 +14,10 @@ const { pool } = require('./util')
  */
 exports.getRandom100Tracks = async function () {
     return pool.many(sql`
-    SELECT * 
-    FROM tracks
-    LIMIT 20 OFFSET 0
+    SELECT *
+    FROM "tracks"  
+    ORDER BY RANDOM()  
+    LIMIT 20  
   `)
 }
 
