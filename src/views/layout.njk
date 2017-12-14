@@ -126,6 +126,9 @@
                 type: "POST",
                 success: function () {
                     alert("Successfully favorite.")
+                },
+                error: function (xmlhttp) {
+                    alert(xmlhttp.responseText)
                 }
             })
         }
@@ -140,6 +143,9 @@
                 type: "POST",
                 success: function () {
                     alert("Successfully follow.")
+                },
+                error: function (xmlhttp) {
+                    alert(xmlhttp.responseText)
                 }
             })
         }

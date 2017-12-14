@@ -22,7 +22,7 @@ router.get('/follower/:username', async ctx => {
     const followers = await db_users.getFollowers(ctx.vals.username)
     followers.forEach(pre.presentFollower)
 
-    await ctx.render('follow', {
+    await ctx.render('follower', {
         title: `${ctx.vals.username}'s Followers}`,
         followers: followers
     })
@@ -41,7 +41,7 @@ router.get('/followee/:username', async ctx => {
     const followees = await db_users.getFollowees(ctx.vals.username)
     followees.forEach(pre.presentFollowee)
 
-    await ctx.render('follow', {
+    await ctx.render('followee', {
         title: `${ctx.vals.username}'s Followees}`,
         followees: followees
     })
@@ -60,14 +60,17 @@ router.post('/follow', mw.ifLogin(), async ctx => {
         ctx.response.status = 400
         ctx.body = "Do not follow yourself."
     }
-
-    const exist = await db_users.existFollow(ctx.currUser.username, ctx.vals.followee)
-    if (exist) {
-        ctx.response.status = 400
-        ctx.body = "This user has already been followed."
+    else {
+        const exist = await db_users.existFollow(ctx.currUser.username, ctx.vals.followee)
+        if (exist) {
+            ctx.response.status = 400
+            ctx.body = "This user has already been followed."
+        }
+        else {
+            await db_users.insertFollow(ctx.currUser.username, ctx.vals.followee)
+            ctx.response.status = 200
+        }
     }
-    await db_users.insertFollow(ctx.currUser.username, ctx.vals.followee)
-    ctx.response.status = 200
 })
 
 /**

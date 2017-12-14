@@ -85,16 +85,13 @@ router.get('/homepage', async ctx => {
   }
   const recommend_users = await db_users.getRandom100Users()
   const moments = await db_users.getMomentByUsername(ctx.currUser.username)
+    const friend_circle = await db_users.getFriendCircleByUsername(ctx.currUser.username)
 
   await ctx.render('homepage', {
     title: "Homepage",
       recommend_users: recommend_users,
-      following: moments.following,
-      followed: moments.followed,
-      rating: moments.rating,
-      favorite: moments.favorite,
-      tracksplayed: moments.tracksplayed,
-      playlistsplayed: moments.playlistsplayed
+      moments: moments,
+      friend_circle: friend_circle
   })
 })
 
