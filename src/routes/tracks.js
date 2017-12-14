@@ -46,6 +46,23 @@ router.get('/playtrack', mw.ifLogin(), async ctx => {
 })
 
 /**
+ * get all ratings of an user.
+ */
+router.get('/rating/:username', mw.ifLogin(), async ctx => {
+    ctx
+        .validateParam('username')
+        .required()
+        .isString()
+        .trim()
+
+    const ratings = await db_tracks.getRatingsByUsername(ctx.vals.username)
+    await ctx.render('rating', {
+        ratings: ratings
+    })
+})
+
+
+/**
  * Rate a track.
  */
 router.post('/rating', mw.ifLogin(), async ctx => {

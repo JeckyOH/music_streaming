@@ -104,6 +104,9 @@
                 type: "GET",
                 success: function (res) {
                     $("#playwindow").html(res)
+                },
+                error: function (xmlhttp) {
+                    alert(xmlhttp.responseText)
                 }
             })
         }

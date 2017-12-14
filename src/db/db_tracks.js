@@ -28,10 +28,20 @@ exports.getRandom100Tracks = async function () {
  */
 exports.getTop100Tracks = async function() {
     return pool.many(sql`
-    SELECT * 
+    SELECT tid, ttitle, aid, aname, tduration, tgenre
     FROM (SELECT tid, count(*) as counts FROM tracks_playing GROUP BY tid ORDER BY counts DESC LIMIT 20) 
-        AS top100 NATURAL JOIN tracks
+        AS top100 NATURAL JOIN tracks NATURAL JOIN artists
   `)
+}
+
+exports.getTracksByArtist = async function (aid) {
+    assert(typeof aid === 'string')
+
+    return pool.many(sql`
+    SELECT *
+    FROM tracks
+    WHERE aid = ${aid}
+    `)
 }
 
 /**
@@ -90,5 +100,18 @@ exports.insertRating = async function (username, tid, score) {
     INSERT INTO "rating" (username, tid, score, rtime)
     VALUES (${username}, ${tid}, ${score}, ${datetime})
     RETURNING *
+    `)
+}
+
+/**
+ * Get someone`s ratings.
+ */
+exports.getRatingsByUsername = async function (username) {
+    assert(typeof username === 'string')
+
+    return pool.many(sql`
+    SELECT username, tid, ttitle, score, rtime
+    FROM rating NATURAL JOIN tracks
+    WHERE username = ${username}
     `)
 }

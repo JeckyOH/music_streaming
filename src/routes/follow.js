@@ -56,6 +56,11 @@ router.post('/follow', mw.ifLogin(), async ctx => {
         .isString()
         .trim()
 
+    if (ctx.vals.followee == ctx.currUser.username) {
+        ctx.response.status = 400
+        ctx.body = "Do not follow yourself."
+    }
+
     const exist = await db_users.existFollow(ctx.currUser.username, ctx.vals.followee)
     if (exist) {
         ctx.response.status = 400

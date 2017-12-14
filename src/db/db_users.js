@@ -19,6 +19,18 @@ exports.getUserByUname = async function(uname) {
   `)
 }
 
+/**
+ * Get random 100 users.
+ */
+exports.getRandom100Users = async function () {
+    return pool.many(sql`
+    SELECT *
+    FROM "users"  
+    ORDER BY RANDOM()  
+    LIMIT 20  
+  `)
+}
+
 // //////////////////////////////////////////////////////////
 
 // Returns created user record
@@ -158,6 +170,72 @@ exports.getPopularUsers = async function () {
     FROM (SELECT followee_usrname, count(*) as counts FROM "follow" GROUP BY followee_usrname ORDER BY counts DESC LIMIT 20) 
         AS top100 JOIN users ON users.username = top100.followee_usrname
   `)
+}
+
+/**
+ * Get a user`s recent activity.
+ * @param username
+ * @returns {Promise<{following: *, followed: *, rating: *, favorite: *, tracksplayed: *, playlistsplayed: *}>}
+ */
+exports.getMomentByUsername = async function (username) {
+    assert(typeof username === 'string')
+
+    const following = await pool.many(sql`
+    SELECT followee_usrname, fldate
+    FROM follow
+    WHERE follower_usrname = ${username}
+    ORDER BY fldate DESC
+    LIMIT 20
+    `)
+
+    const followed = await pool.many(sql`
+    SELECT follower_usrname, fldate
+    FROM follow
+    WHERE followee_usrname = ${username}
+    ORDER BY fldate DESC
+    LIMIT 20
+    `)
+
+    const rating = await pool.many(sql`
+    SELECT tid, ttitle, rtime, score
+    FROM rating NATURAL JOIN tracks
+    WHERE username = ${username}
+    ORDER BY rtime DESC
+    LIMIT 20
+    `)
+
+    const favorite = await pool.many(sql`
+    SELECT aid, frdate, aname
+    FROM favorite NATURAL JOIN artists
+    WHERE username = ${username}
+    ORDER BY frdate DESC
+    LIMIT 20
+    `)
+
+    const tracksplayed = await pool.many(sql`
+    SELECT tid, tptime, ttitle
+    FROM tracks_playing NATURAL JOIN tracks
+    WHERE username = ${username}
+    ORDER BY tptime DESC
+    LIMIT 20
+    `)
+
+    const playlistsplayed = await pool.many(sql`
+    SELECT pid, pptime, ptitle
+    FROM playlists_playing NATURAL JOIN playlists
+    WHERE username = ${username}
+    ORDER BY pptime DESC
+    LIMIT 20
+    `)
+
+    return {
+        following: following,
+        followed: followed,
+        rating: rating,
+        favorite: favorite,
+        tracksplayed: tracksplayed,
+        playlistsplayed: playlistsplayed
+    }
 }
 
 

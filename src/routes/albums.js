@@ -19,7 +19,7 @@ router.get('/album/:alid', async ctx => {
         .isString()
         .trim()
 
-    album = await db_albums.getTracksByAlbum(ctx.vals.alid)
+    album = await db_albums.getAlbumById(ctx.vals.alid)
 
     if(!album) {
         ctx.flash = {message: ["error", "Album does not exist."]}
