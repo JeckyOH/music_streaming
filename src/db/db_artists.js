@@ -16,7 +16,7 @@ const { pool } = require('./util')
 exports.getPopularArtists = async function () {
     return pool.many(sql`
     SELECT * 
-    FROM (SELECT aid, count(*) as counts FROM "favorite" GROUP BY aid ORDER BY counts DESC LIMIT 100) 
+    FROM (SELECT aid, count(*) as counts FROM "favorite" GROUP BY aid ORDER BY counts DESC LIMIT 20) 
         AS top100 NATURAL JOIN artists
   `)
 }
