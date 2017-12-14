@@ -41,6 +41,10 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
         .validateBody('ucity')
         .isString()
         .trim()
+        .match(
+            /^[a-zA-Z,. ]+$/i,
+            'City must only contain a-z, A-Z, comma(,), space( ) or dot(.)'
+        )
 
     ctx
         .validateBody('uemail')
@@ -50,6 +54,11 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
         .validateBody('uname')
         .isString()
         .trim()
+        .match(
+            /^[a-zA-Z. ]+$/i,
+            'Name must only contain a-z, A-Z, space( ) or dot(.)'
+        )
+
     if (ctx.vals.email) {
         ctx.validateBody('email').isEmail()
     }
