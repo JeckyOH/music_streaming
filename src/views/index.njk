@@ -37,7 +37,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Hit List</div>
                     <div class="panel-body">
-                        Panel content
+                        {% for item in top100_tracks %}
+
+                        {% endfor %}
                     </div>
                     <div class="panel-heading">Popular Playlist</div>
                     <div class="panel-body">
@@ -57,7 +59,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Daily</div>
                     <div class="panel-body">
-                        Panel content
+                        {% for item in daily_tracks %}
+                            <button class="btn btn-default" onclick="playtrack('{{ item.tid }}')"
+                                    style="font-size: medium; border: none">{{ item.ttitle }}</button><br>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

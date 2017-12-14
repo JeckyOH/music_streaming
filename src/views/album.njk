@@ -43,7 +43,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
-                    <div class="panel-heading">{{ tracks.ttitle }}</div>
+                    <div class="panel-heading">{{ albums.ttitle }}</div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
@@ -55,11 +55,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    {% for item in albums %}
+                                    {% for item in tracks %}
                                         <tr>
                                             <td class="content">{{ item.ttitle }}</td>
                                             <td class="content">{{ item.tid }}</td>
-                                            <td class="content"><button class="btn btn-default">
+                                            <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
                                             <td class="content"><button class="btn btn-default">
                                                     <span class="glyphicon glyphicon-plus"></span></button></td>
