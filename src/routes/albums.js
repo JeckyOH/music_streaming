@@ -19,7 +19,15 @@ router.get('/album/:alid', async ctx => {
         .isString()
         .trim()
 
+    album = await db_albums.getTracksByAlbum(ctx.vals.alid)
+
+    if(!album) {
+        ctx.flash = {message: ["error", "Album does not exist."]}
+        ctx.redirect('back')
+    }
+
     tracks = await db_albums.getTracksByAlbum(ctx.vals.alid)
+    tracks.forEach(pre.presentTracks)
 
     if(!tracks) {
         ctx.flash = {message: ["error", "Failed to get information of this album."]}
@@ -27,7 +35,7 @@ router.get('/album/:alid', async ctx => {
     }
 
     await ctx.render('album', {
-        alid: ctx.vals.alid,
+        alname: album.alname,
         tracks: tracks
     })
 })
