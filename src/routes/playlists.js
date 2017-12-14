@@ -112,16 +112,10 @@ router.get('/playlists/:username', async ctx => {
             .isString()
             .trim()
 
-        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
+        if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
+            await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
         }
-        else {
-            if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
-                await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
-            }
-
-            ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
-        }
+        ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
         ctx.redirect('back')
     })
 
@@ -138,9 +132,6 @@ router.get('/playlists/:username', async ctx => {
             .isString()
             .trim()
 
-        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
-        }
         await db_playlist.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
 
         ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
@@ -187,6 +178,7 @@ router.get('/playlist/:pid', async ctx => {
     //         ctx.redirect('back')
     //     }
     // }
+
 })
 
 module.exports = router

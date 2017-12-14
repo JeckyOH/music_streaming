@@ -75,15 +75,16 @@ router.post('/rating', mw.ifLogin(), async ctx => {
     ctx
         .validateBody('score')
         .required()
-        .isInt("Score must be an integer.")
 
-    if (await db_tracks.insertRating(ctx.currUser.username, ctx.vals.tid, ctx.vals.score)) {
+    const score = Number.parseInt(ctx.vals.score)
+
+    if (await db_tracks.insertRating(ctx.currUser.username, ctx.vals.tid, score)) {
         ctx.flash = {message: ["success", "Successfully rating the track."]}
     }
     else {
         ctx.flash = {message: ["danger", "Failed rating the track."]}
     }
-    await ctx.render('back')
+    ctx.redirect('back')
 })
 
 module.exports = router

@@ -150,7 +150,7 @@ exports.getMaxInPlaylist = async function (playlist_id) {
     FROM "playlist_contains"
     WHERE pid = ${playlist_id}
   `)
-    return count
+    return max
 }
 
 exports.checkOwnership = async function (playlist_id, username) {
