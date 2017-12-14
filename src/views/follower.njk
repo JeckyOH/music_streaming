@@ -29,28 +29,17 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <ul class="nav nav-tabs">
-                {% if followers %}
-                <li class="active size"><a data-toggle="tab" href="#follower">Fans</a></li>
-                <li class="size"><a data-toggle="tab" href="#followee">Follows</a></li>
-                {% else %}
                 <li class="size"><a data-toggle="tab" href="#follower">Fans</a></li>
                 <li class="active size"><a data-toggle="tab" href="#followee">Follows</a></li>
-                {% endif %}
             </ul>
             <div class="tab-content">
-                <div id="follower" class="tab-pane fade in active">
-                    <h3>Fans</h3>
-                    <ul class="list-group">
-                        {% for item in followers %}
-                            <li class="list-group-item font"><a href="#">{{ item.username }}</a> </li>
-                        {% endfor %}
-                    </ul>
-                </div>
                 <div id="followee" class="tab-pane fade">
                     <h3>Follows</h3>
-                    {% for item in followees %}
-                        <li class="list-group-item font"><a href="#">{{ item.username }}</a> </li>
-                    {% endfor %}
+                    <ul class="list-group">
+                        {% for item in followees %}
+                            <li class="list-group-item font"><a href="#">{{ item.followee }}</a> </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>

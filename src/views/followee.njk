@@ -1,0 +1,49 @@
+{% extends 'layout.njk' %}
+
+{% block more_heads  %}
+    <style>
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
+        .font {
+            font-size: medium;
+            text-align: center;
+        }
+        .size {
+            font-size: large;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="page-header">
+            <br>
+            <br>
+            <h1>{{ user.username }}</h1>
+        </div>
+        <h2>My Follow</h2>
+        <br>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <ul class="nav nav-tabs">
+                <li class="active size"><a data-toggle="tab" href="#follower">Fans</a></li>
+                <li class="size"><a data-toggle="tab" href="#followee">Follows</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="follower" class="tab-pane fade in active">
+                    <h3>Fans</h3>
+                    <ul class="list-group">
+                        {% for item in followers %}
+                            <li class="list-group-item font"><a href="#">{{ item.follower }}</a> </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+{% endblock %}

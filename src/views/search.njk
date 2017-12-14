@@ -43,6 +43,10 @@
         ul.nav-pills {
             position: fixed;
         }
+        .font {
+            font-size: medium;
+            color: black;
+        }
     </style>
 {% endblock %}
 
@@ -83,10 +87,10 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                        <h4 class="modal-title font" id="myModalLabel">Rating</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Rate this track from 1 to 5 stars.</p>
+                                        <p class="font">Rate this track from 1 to 5 stars.</p>
                                         <form action="/rating" method="post">
                                             <select class="form-control" name="score">
                                                 <option>1</option>
@@ -111,10 +115,10 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                        <h4 class="modal-title font" id="myModalLabel">Add</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Add this track to a playlist.</p>
+                                        <p class="font">Add this track to a playlist.</p>
                                         <form action="/playlists/addtracks" method="post">
                                             <select class="form-control" name="pid">
                                                 {% for playlist in user.playlists %}
@@ -145,7 +149,7 @@
                                     {% for item in tracks %}
                                         <tr>
                                             <td class="content">{{ item.ttitle }}</td>
-                                            <td class="content">{{ item.tid }}</td>
+                                            <td class="content">{{ item.aname }}</td>
                                             <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
                                             <td class="content"><button class="btn btn-default" onclick="showAddtrackModal('{{ item.tid }}')">
