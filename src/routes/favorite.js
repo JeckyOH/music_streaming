@@ -38,12 +38,11 @@ router.post('/favorites', mw.ifLogin(), async ctx => {
 
     const exist = await db_artists.existFavorite(ctx.currUser.username, ctx.vals.aid)
     if (exist) {
-        ctx.flash = {message : ["info", "Favorite exist. Nothing updated."]}
-        ctx.redirect('back')
+        ctx.response.status = 400
+        ctx.body = "This user has already been followed."
     }
     await db_artists.insertFavorite(ctx.currUser.username, ctx.vals.aid)
-    ctx.flash = {message : ["success", "Successfully mark an artist as favorite."]}
-    ctx.redirect('back')
+    ctx.response.status = 200
 })
 
 /**
@@ -55,9 +54,10 @@ router.post('/unfavorites', mw.ifLogin(), async ctx => {
         .isString()
         .trim()
 
-    await db_users.deleteFollow(ctx.currUser.username, ctx.vals.followee)
+    await db_artists.deleteFavorite(ctx.currUser.username, ctx.vals.aid)
 
-    ctx.response.status = 200
+    ctx.flash = {message: ["success", "Successfully unfavorite."]}
+    ctx.redirect('back')
 })
 
 module.exports = router

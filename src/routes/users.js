@@ -64,7 +64,7 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
     }
 
     if(ctx.currUser.username !== ctx.vals.username){
-        ctx.flash = { message: ['error', 'Editing other`s profile is not allowed.'] }
+        ctx.flash = { message: ['danger', 'Editing other`s profile is not allowed.'] }
         ctx.redirect(`back`)
     }
 

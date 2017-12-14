@@ -22,7 +22,7 @@ router.get('/album/:alid', async ctx => {
     album = await db_albums.getAlbumById(ctx.vals.alid)
 
     if(!album) {
-        ctx.flash = {message: ["error", "Album does not exist."]}
+        ctx.flash = {message: ["danger", "Album does not exist."]}
         ctx.redirect('back')
     }
 
@@ -30,7 +30,7 @@ router.get('/album/:alid', async ctx => {
     tracks.forEach(pre.presentTracks)
 
     if(!tracks) {
-        ctx.flash = {message: ["error", "Failed to get information of this album."]}
+        ctx.flash = {message: ["danger", "Failed to get information of this album."]}
         ctx.redirect('back')
     }
 
@@ -59,7 +59,7 @@ router.post('/rating', mw.ifLogin(), async ctx => {
         ctx.flash = {message: ["success", "Successfully rating the track."]}
     }
     else {
-        ctx.flash = {message: ["error", "Failed rating the track."]}
+        ctx.flash = {message: ["danger", "Failed rating the track."]}
     }
     await ctx.render('back')
 })

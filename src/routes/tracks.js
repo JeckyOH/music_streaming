@@ -81,7 +81,7 @@ router.post('/rating', mw.ifLogin(), async ctx => {
         ctx.flash = {message: ["success", "Successfully rating the track."]}
     }
     else {
-        ctx.flash = {message: ["error", "Failed rating the track."]}
+        ctx.flash = {message: ["danger", "Failed rating the track."]}
     }
     await ctx.render('back')
 })
