@@ -44,8 +44,24 @@ exports.insertFavorite = async function (username, aid) {
 
     return pool.one(sql`
     INSERT INTO "favorite" (username, aid, frdate)
-    VALUE (${username}, ${aid}, ${date})
+    VALUES (${username}, ${aid}, ${date})
     RETURNING *
+    `)
+}
+
+/**
+ * Delete a favorite relationship.
+ * @param username
+ * @param aid
+ * @returns {Promise<*>}
+ */
+exports.deleteFavorite = async function (username, aid) {
+    assert(typeof username === 'string')
+    assert(typeof aid === 'string')
+
+    return pool.one(sql`
+    DELETE FROM "favorite" 
+    WHERE username = ${username} and aid = ${aid}
     `)
 }
 

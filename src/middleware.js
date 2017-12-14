@@ -20,7 +20,7 @@ exports.wrapCurrUser = function() {
         if (!username) return next()
         const user = await db_users.getUserByUname(username)
       if (user) {
-            const playlists = db_playlists.getPlaylistByUsername(user.username)
+            const playlists = await db_playlists.getPlaylistByUsername(user.username)
           playlists.forEach(pre.presentPlaylists)
           user.playlists = playlists
           ctx.currUser = pre.presentUser(user)

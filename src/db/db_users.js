@@ -78,7 +78,7 @@ exports.insertFollow = async function (follower, followee) {
 
     return pool.one(sql`
     INSERT INTO "follow" (follower_usrname, followee_usrname, fldate)
-    VALUE (${follower}, ${followee}, ${date})
+    VALUES (${follower}, ${followee}, ${date})
     RETURNING *
     `)
 }

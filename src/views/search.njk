@@ -6,12 +6,11 @@
             padding: 20px;
             font-size: large;
             text-align: center;
-            opacity: 0.8;
             border-right: 0;
             border-top: 0;
             border-left: 0;
             border-bottom: 0;
-            width: 180%;
+            width: 170%;
         }
         .content {
             color: black;
@@ -30,11 +29,11 @@
             color: #ffffff;
             -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
             box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-            opacity:0.7;
+
         }
         body {
-            background-color: yellowgreen;
-            position: relative;
+            background-image: url("/img/back.jpg");
+            background-size: relative;
         }
         @media screen and (max-width: 810px) {
             #section1, #section2, #section3, #section4  {
@@ -65,6 +64,40 @@
                     <!-- Default panel contents -->
                     <div class="panel-heading">Tracks</div>
                     <div class="panel-body">
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="{{ ['#myModal', loop.index] | join }}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ ['myModal', loop.index] | join }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Rate this track from 1 to 5 stars.</p>
+                                        <form action="/rating" method="post">
+                                            <select class="form-control" name="score">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                            <input class="hidden" name="tid" value="{{ item.tid }}">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover">
                             <thead>
                                 <tr style="color: black">
@@ -72,6 +105,7 @@
                                     <th>Artist</th>
                                     <th>Play</th>
                                     <th>Add</th>
+                                    <th>Rate</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,6 +117,73 @@
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
                                             <td class="content"><button class="btn btn-default">
                                                     <span class="glyphicon glyphicon-plus"></span></button></td>
+                                            <td class="content">
+
+                                                <script>$('{{ ['#myModal', loop.index] | join }}').modal(show)</script>
+
+                                                <a type="button" class="btn btn-default" data-toggle="modal" href="{{ ['#myModal', loop.index] | join }}" data-backdrop="static">
+                                                    <span class="glyphicon glyphicon-pencil"></span> </a>
+
+                                                <div class="modal hide fade in" style="display:none;" id="{{ ['myModal', loop.index] | join }}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title">课程详情</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <ul class="list-unstyled">
+                                                                    <li><strong>课程编码：</strong>RGB215</li>
+                                                                    <li><br></li>
+                                                                    <li><strong>课程名称：</strong>数据库</li>
+                                                                    <li><br></li>
+                                                                    <li><strong>课时名称：</strong>数据库的种类</li>
+                                                                    <li><br></li>
+                                                                    <li><strong>上课时间：</strong>20170725</li>
+                                                                    <li><br></li>
+                                                                    <li><strong>课时简介：</strong>数据库的历史及发展</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {#<!-- Button trigger modal -->#}
+                                                {#<button type="button" class="btn btn-default" data-toggle="modal" data-target="{{ ['#myModal', loop.index] | join }}">#}
+                                                    {#<span class="glyphicon glyphicon-pencil"></span>#}
+                                                {#</button>#}
+
+                                                {#<!-- Modal -->#}
+                                                {#<div class="modal fade" id="{{ ['myModal', loop.index] | join }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+                                                    {#<div class="modal-dialog" role="document">#}
+                                                        {#<div class="modal-content">#}
+                                                            {#<div class="modal-header">#}
+                                                                {#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+                                                                {#<h4 class="modal-title" id="myModalLabel">Modal title</h4>#}
+                                                            {#</div>#}
+                                                            {#<div class="modal-body">#}
+                                                                {#<p>Rate this track from 1 to 5 stars.</p>#}
+                                                                {#<form action="/rating" method="post">#}
+                                                                    {#<select class="form-control" name="score">#}
+                                                                        {#<option>1</option>#}
+                                                                        {#<option>2</option>#}
+                                                                        {#<option>3</option>#}
+                                                                        {#<option>4</option>#}
+                                                                        {#<option>5</option>#}
+                                                                    {#</select>#}
+                                                                    {#<input class="hidden" name="tid" value="{{ item.tid }}">#}
+                                                                    {#<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+                                                                    {#<button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>#}
+                                                                {#</form>#}
+                                                            {#</div>#}
+                                                            {#<div class="modal-footer"></div>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                             </tbody>
@@ -123,8 +224,8 @@
                             <tbody>
                             {% for item in users %}
                                 <tr>
-                                    <td class="content">{{ item.username }}</td>
-                                    <td class="content"><button class="btn btn-default">
+                                    <td class="content"><a href="/profile/{{ item.username }}">{{ item.username }}</a></td>
+                                    <td class="content"><button class="btn btn-default" onclick="follow('{{ item.username }}')">
                                             <span class="glyphicon glyphicon-tag"></span></button></td>
                                 </tr>
                             {% endfor %}
@@ -147,8 +248,8 @@
                             {% for item in artists %}
                                 <tr>
                                     <td class="content">{{ item.aname }}</td>
-                                    <td class="content"><button class="btn btn-default">
-                                            <span class="glyphicon glyphicon-heart"></span></button></td>
+                                    <td class="content"><button class="btn btn-default" onclick="favorite('{{ item.aid }}')">
+                                            <span class="glyphicon glyphicon-heart-empty"></span></button></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -168,7 +269,7 @@
                             <tbody>
                             {% for item in playlists %}
                                 <tr>
-                                    {#<td class="content"><a href="/album/{{ item.alid }}">{{ item.altitle }}</a></td>#}
+                                    <td class="content"><a href="/playlist/{{ item.pid }}">{{ item.ptitle }}</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -178,4 +279,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

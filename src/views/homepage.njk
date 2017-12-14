@@ -2,7 +2,16 @@
 
 {% block more_heads  %}
     <style>
-
+        .font {
+            font-size: medium;
+        }
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
+        .size {
+            font-size: x-large;
+        }
     </style>
 {% endblock %}
 
@@ -12,14 +21,14 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{ user.username }}</div>
+                    <div class="panel-heading size">{{ user.username }}</div>
                     <div class="panel-body">
                         <ul class="list-group nav nav-pills nav-stacked">
-                            <li class="list-group-item tall"><a href="/playlists/{{ user.username }}">My Playlists</a> </li>
-                            <li class="list-group-item tall"><a href="/favorites/{{ user.username }}">My Favorite Artists</a> </li>
-                            <li class="list-group-item tall"><a href="/followee/{{ user.username }}">My Follows</a> </li>
-                            <li class="list-group-item tall"><a href="/follower/{{ user.username }}">Followers</a> </li>
-                            <li class="list-group-item tall"><a href="#">My Ratings</a> </li>
+                            <li class="list-group-item font"><a href="/playlists/{{ user.username }}">My Playlists</a> </li>
+                            <li class="list-group-item font"><a href="/favorites/{{ user.username }}">My Favorite Artists</a> </li>
+                            <li class="list-group-item font"><a href="/follower/{{ user.username }}">My Fans</a> </li>
+                            <li class="list-group-item font"><a href="/followee/{{ user.username }}">My Follows</a> </li>
+                            <li class="list-group-item font"><a href="/rating">My Ratings</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -29,8 +38,8 @@
             </div>
             <div class="col-md-6">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#myMoment">My Moment</a></li>
-                    <li><a data-toggle="tab" href="#friendCircle">Friend Circle</a></li>
+                    <li class="active" style="font-size: large"><a data-toggle="tab" href="#myMoment">My Moment</a></li>
+                    <li style="font-size: large"><a data-toggle="tab" href="#friendCircle">Friend Circle</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="myMoment" class="tab-pane fade in active">
@@ -45,7 +54,7 @@
             </div>
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Recommend</div>
+                    <div class="panel-heading size">Recommend</div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>

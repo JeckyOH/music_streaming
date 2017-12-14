@@ -76,7 +76,8 @@ router.post('/unfollow', mw.ifLogin(), async ctx => {
 
     await db_users.deleteFollow(ctx.currUser.username, ctx.vals.followee)
 
-    ctx.response.status = 200
+    ctx.flash = {message: ["success", "Successfully unfollow."]}
+    ctx.redirect('back')
 })
 
 module.exports = router

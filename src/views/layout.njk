@@ -113,6 +113,34 @@
             })
         }
 
+        function favorite(aid) {
+            $.ajax({
+                url: "/favorites",
+                async: true,
+                data: {
+                    aid: aid
+                },
+                type: "POST",
+                success: function () {
+                    alert("Successfully favorite.")
+                }
+            })
+        }
+
+        function follow(usrname) {
+            $.ajax({
+                url: "/follow",
+                async: true,
+                data: {
+                    followee: usrname
+                },
+                type: "POST",
+                success: function () {
+                    alert("Successfully follow.")
+                }
+            })
+        }
+
         $("#close_btn").click( function () {
             $("#playdiv").hide()
         })

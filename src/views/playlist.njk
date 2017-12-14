@@ -2,11 +2,13 @@
 
 {% block more_heads  %}
     <style>
-        /*body {*/
-            /*background-image: url("/img/login.jpg");*/
-            /*background-size: cover;*/
-        /*}*/
-
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
+        .font {
+            font-size: medium;
+        }
     </style>
 {% endblock %}
 
@@ -26,14 +28,14 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th >Name</th>
-                    <th style="text-align:right">Last modified date</th>
+                    <th class="font">Name</th>
+                    <th class="font" style="text-align:right">Last modified date</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="#">{{ item.ptitle }}</a></td>
-                    <td style="text-align:right">{{ item.pmodifydate }}</td>
+                    <td class="font"><a href="/playlist/{{ item.pid }}">{{ item.ptitle }}</a></td>
+                    <td class="font" style="text-align:right">{{ item.pmodifydate }}</td>
                 </tr>
                 </tbody>
             </table>

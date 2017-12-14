@@ -2,15 +2,19 @@
 
 {% block more_heads  %}
     <style>
-        /*body {*/
-            /*background-image: url("/img/login.jpg");*/
-            /*background-size: cover;*/
-        /*}*/
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
+        .font {
+            font-size: medium;
+            text-align: center;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+<div class="container">
     <div class="row">
         <div class="page-header">
             <br>
@@ -19,16 +23,34 @@
         </div>
         <br>
         <h2>My Favorite Artist</h2>
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <ul class="list-group nav nav-pills nav-stacked">
+        <br>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="font">Name</th>
+                    <th class="font">Description</th>
+                    <th class="font">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for item in artists %}
-                    <li class="list-group-item tall"><a href="#">{{ item.aname }}</a> </li>
-                    <li class="list-group-item tall"><a href="#">{{ item.adesc }}</a> </li>
+                    <tr>
+                        <td><a href="#" style="font-size: medium">{{ item.aname }}</a></td>
+                        <td style="font-size: medium">{{ item.adesc }}</td>
+                        <td style="font-size: medium; text-align: center">
+                            <form action="/unfavorites" method="post">
+                                <input class="hidden" name="aid" value="{{ item.aid }}">
+                                <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                            </form>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
+                </tbody>
+            </table>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
     </div>
 </div>
 {% endblock %}

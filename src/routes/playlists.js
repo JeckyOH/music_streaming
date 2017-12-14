@@ -77,7 +77,7 @@ router.get('/playlists/:username', async ctx => {
             ctx.flash = {message: ["success", "Successfully create playlist."]}
         }
         else {
-            ctx.flash = {message: ["error", "Unsuccessfully create playlist."]}
+            ctx.flash = {message: ["danger", "Unsuccessfully create playlist."]}
         }
         ctx.redirect('/myplaylists')
     })
@@ -152,12 +152,12 @@ router.get('/playlists/:username', async ctx => {
  */
 router.get('/playlist/:pid', async ctx => {
     ctx
-        .validateBody('pid')
+        .validateParam('pid')
         .isString()
         .trim()
     if (ctx.currUser) {
         if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
+            ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
             ctx.redirect('back')
         }
         else {
@@ -176,7 +176,7 @@ router.get('/playlist/:pid', async ctx => {
             })
         }
         else {
-            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
+            ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
             ctx.redirect('back')
         }
     }

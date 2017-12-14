@@ -157,12 +157,12 @@ exports.checkOwnership = async function (playlist_id, username) {
     assert(typeof playlist_id === 'string')
     assert(typeof username === 'string')
 
-    const {res_username} = pool.one(sql`
+    const res = pool.one(sql`
     SELECT username
     FROM "playlists"
     WHERE pid = ${playlist_id}
   `)
-    if (res_username && (username == res_username) ) return true
+    if (res && (username == res.username) ) return true
     return false
 }
 
