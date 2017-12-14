@@ -15,7 +15,7 @@ const { pool } = require('./util')
 exports.getTracksByKeyword = async function(keyword, limit = 'ALL', offset = 0){
     return pool.many(sql `
     SELECT * 
-    FROM tracks
+    FROM tracks NATURAL JOIN artists
     WHERE ttitle LIKE ${'%' + keyword + '%'} or tgenre LIKE ${'%' + keyword + '%'}
     LIMIT ${limit} OFFSET ${offset}
     `)

@@ -47,6 +47,18 @@
 {% endblock %}
 
 {% block content %}
+    <script>
+        function showRatingModal(tid) {
+            $("#rating_tid").val(tid)
+            $("#rating_modal").modal('show')
+        }
+
+        function showAddtrackModal(tid) {
+            $("#addtrack_tid").val(tid)
+            $("#addtrack_modal").modal('show')
+        }
+    </script>
+
     <<div class="page-header"></div>
     <div class="container">
         <div class="row">
@@ -65,13 +77,8 @@
                     <div class="panel-heading">Tracks</div>
                     <div class="panel-body">
 
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="{{ ['#myModal', loop.index] | join }}">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="{{ ['myModal', loop.index] | join }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <!-- Rating Modal -->
+                        <div class="modal fade" id="rating_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -88,7 +95,33 @@
                                                 <option>4</option>
                                                 <option>5</option>
                                             </select>
-                                            <input class="hidden" name="tid" value="{{ item.tid }}">
+                                            <input id = "rating_tid" class="hidden" name="tid" value="">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Track Modal -->
+                        <div class="modal fade" id="addtrack_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Add this track to a playlist.</p>
+                                        <form action="/playlists/addtracks" method="post">
+                                            <select class="form-control" name="pid">
+                                                {% for playlist in user.playlists %}
+                                                <option value = "{{ playlist.pid }}">{{ playlist.ptitle }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input id = "addtrack_tid" class="hidden" name="tid" value="">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
                                         </form>
@@ -115,74 +148,14 @@
                                             <td class="content">{{ item.tid }}</td>
                                             <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
-                                            <td class="content"><button class="btn btn-default">
+                                            <td class="content"><button class="btn btn-default" onclick="showAddtrackModal('{{ item.tid }}')">
                                                     <span class="glyphicon glyphicon-plus"></span></button></td>
                                             <td class="content">
 
-                                                <script>$('{{ ['#myModal', loop.index] | join }}').modal(show)</script>
-
-                                                <a type="button" class="btn btn-default" data-toggle="modal" href="{{ ['#myModal', loop.index] | join }}" data-backdrop="static">
-                                                    <span class="glyphicon glyphicon-pencil"></span> </a>
-
-                                                <div class="modal hide fade in" style="display:none;" id="{{ ['myModal', loop.index] | join }}">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                                <h4 class="modal-title">课程详情</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <ul class="list-unstyled">
-                                                                    <li><strong>课程编码：</strong>RGB215</li>
-                                                                    <li><br></li>
-                                                                    <li><strong>课程名称：</strong>数据库</li>
-                                                                    <li><br></li>
-                                                                    <li><strong>课时名称：</strong>数据库的种类</li>
-                                                                    <li><br></li>
-                                                                    <li><strong>上课时间：</strong>20170725</li>
-                                                                    <li><br></li>
-                                                                    <li><strong>课时简介：</strong>数据库的历史及发展</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {#<!-- Button trigger modal -->#}
-                                                {#<button type="button" class="btn btn-default" data-toggle="modal" data-target="{{ ['#myModal', loop.index] | join }}">#}
-                                                    {#<span class="glyphicon glyphicon-pencil"></span>#}
-                                                {#</button>#}
-
-                                                {#<!-- Modal -->#}
-                                                {#<div class="modal fade" id="{{ ['myModal', loop.index] | join }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
-                                                    {#<div class="modal-dialog" role="document">#}
-                                                        {#<div class="modal-content">#}
-                                                            {#<div class="modal-header">#}
-                                                                {#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
-                                                                {#<h4 class="modal-title" id="myModalLabel">Modal title</h4>#}
-                                                            {#</div>#}
-                                                            {#<div class="modal-body">#}
-                                                                {#<p>Rate this track from 1 to 5 stars.</p>#}
-                                                                {#<form action="/rating" method="post">#}
-                                                                    {#<select class="form-control" name="score">#}
-                                                                        {#<option>1</option>#}
-                                                                        {#<option>2</option>#}
-                                                                        {#<option>3</option>#}
-                                                                        {#<option>4</option>#}
-                                                                        {#<option>5</option>#}
-                                                                    {#</select>#}
-                                                                    {#<input class="hidden" name="tid" value="{{ item.tid }}">#}
-                                                                    {#<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
-                                                                    {#<button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>#}
-                                                                {#</form>#}
-                                                            {#</div>#}
-                                                            {#<div class="modal-footer"></div>#}
-                                                        {#</div>#}
-                                                    {#</div>#}
-                                                {#</div>#}
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-default" onclick="showRatingModal('{{ item.tid }}')">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
                                             </td>
                                         </tr>
                                     {% endfor %}

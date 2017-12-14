@@ -112,16 +112,10 @@ router.get('/playlists/:username', async ctx => {
             .isString()
             .trim()
 
-        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
+        if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
+            await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
         }
-        else {
-            if (await db_playlists.existPlaylistContains(ctx.vals.pid, ctx.vals.tid) === false) {
-                await db_playlists.insertPlaylistContains(ctx.vals.pid, ctx.vals.tid)
-            }
-
-            ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
-        }
+        ctx.flash = {message: ["success", "Successfully add the track to playlist."]}
         ctx.redirect('back')
     })
 
@@ -138,9 +132,6 @@ router.get('/playlists/:username', async ctx => {
             .isString()
             .trim()
 
-        if (await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["success", "Stop try to damage others` playlists."]}
-        }
         await db_playlist.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
 
         ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
@@ -155,37 +146,11 @@ router.get('/playlist/:pid', async ctx => {
         .validateParam('pid')
         .isString()
         .trim()
-    if (ctx.currUser) {
-<<<<<<< HEAD
-        if(await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username) == false) {
-            ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
-=======
-        const owner = await db_playlists.checkOwnership(ctx.vals.pid, ctx.currUser.username)
-        if( owner == false) {
-            ctx.flash = {message: ["error", "Stop try to damage others` playlists."]}
->>>>>>> e2a8667291fafe7c61a5c14d557dbec5fdc60d1b
-            ctx.redirect('back')
-        }
-        else {
-            const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
-            ctx.render('playlist_info', {
-                tracks: tracks
-            })
-        }
-    }
-    else {
-        const playlist = await db_playlists.getPlaylistByPid(ctx.vals.pid)
-        if(playlist && playlist.pstatus == 'public'){
-            const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
-            ctx.render('playlist_info', {
-                tracks: tracks
-            })
-        }
-        else {
-            ctx.flash = {message: ["danger", "Stop try to damage others` playlists."]}
-            ctx.redirect('back')
-        }
-    }
+
+    const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+    await ctx.render('playlist_info', {
+        tracks: tracks
+    })
 })
 
 module.exports = router
