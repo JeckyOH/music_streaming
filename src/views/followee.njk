@@ -1,0 +1,55 @@
+{% extends 'layout.njk' %}
+
+{% block more_heads  %}
+    <style>
+        body {
+            background-image: url("/img/back.jpg");
+            background-size: cover;
+        }
+        .font {
+            font-size: medium;
+            text-align: center;
+        }
+        .size {
+            font-size: large;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="page-header">
+            <br>
+            <br>
+            <h1>{{ user.username }}</h1>
+        </div>
+        <h2>My Follows</h2>
+        <br>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="tab-content">
+                <div id="follower" class="tab-pane fade in active">
+                    <table class="table table-hover">
+                        <thead></thead>
+                        <tbody>
+                        {% for item in followees %}
+                            <tr>
+                                <td class="font"><a href="/profile/{{ item.followee }}">{{ item.followee }}</a> </td>
+                                <td>
+                                    <form action="/unfollow" method="post">
+                                        <input class="hidden" name="followee" value="{{ item.followee }}">
+                                        <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+{% endblock %}

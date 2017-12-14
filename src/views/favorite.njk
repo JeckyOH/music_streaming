@@ -37,7 +37,7 @@
                 <tbody>
                 {% for item in artists %}
                     <tr>
-                        <td><a href="#" style="font-size: medium">{{ item.aname }}</a></td>
+                        <td><a href="/artist/{{ item.aid }}" style="font-size: medium">{{ item.aname }}</a></td>
                         <td style="font-size: medium">{{ item.adesc }}</td>
                         <td style="font-size: medium; text-align: center">
                             <form action="/unfavorites" method="post">

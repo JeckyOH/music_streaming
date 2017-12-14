@@ -127,12 +127,13 @@ router.get('/playlists/:username', async ctx => {
             .validateBody('pid')
             .isString()
             .trim()
+
         ctx
             .validateBody('tid')
             .isString()
             .trim()
 
-        await db_playlist.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
+        await db_playlists.deletePlaylistContains(ctx.vals.pid, ctx.vals.tid)
 
         ctx.flash = {message: ["success", "Successfully delete the track from playlist."]}
         ctx.redirect('back')
