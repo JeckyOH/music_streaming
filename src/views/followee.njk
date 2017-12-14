@@ -24,22 +24,28 @@
             <br>
             <h1>{{ user.username }}</h1>
         </div>
-        <h2>My Follow</h2>
+        <h2>My Follows</h2>
         <br>
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <ul class="nav nav-tabs">
-                <li class="active size"><a data-toggle="tab" href="#follower">Fans</a></li>
-                <li class="size"><a data-toggle="tab" href="#followee">Follows</a></li>
-            </ul>
             <div class="tab-content">
                 <div id="follower" class="tab-pane fade in active">
-                    <h3>Fans</h3>
-                    <ul class="list-group">
-                        {% for item in followers %}
-                            <li class="list-group-item font"><a href="#">{{ item.follower }}</a> </li>
+                    <table class="table table-hover">
+                        <thead></thead>
+                        <tbody>
+                        {% for item in followees %}
+                            <tr>
+                                <td class="font"><a href="/profile/{{ item.followee }}">{{ item.followee }}</a> </td>
+                                <td>
+                                    <form action="/unfollow" method="post">
+                                        <input class="hidden" name="followee" value="{{ item.followee }}">
+                                        <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                                    </form>
+                                </td>
+                            </tr>
                         {% endfor %}
-                    </ul>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

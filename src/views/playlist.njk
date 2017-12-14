@@ -24,22 +24,31 @@
         <br>
         <div class="col-md-1"></div>
         <div class="col-md-8">
-            {% for item in playlists %}
+
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th class="font">Name</th>
                     <th class="font" style="text-align:right">Last modified date</th>
+                    <th class="font">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% for item in playlists %}
                 <tr>
                     <td class="font"><a href="/playlist/{{ item.pid }}">{{ item.ptitle }}</a></td>
                     <td class="font" style="text-align:right">{{ item.pmodifydate }}</td>
+                    <td style="font-size: medium; text-align: center">
+                        <form action="/playlists/delete" method="post">
+                            <input class="hidden" name="pid" value="{{ item.pid }}">
+                            <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                        </form>
+                    </td>
                 </tr>
+                {% endfor %}
                 </tbody>
             </table>
-            {% endfor %}
+
         </div>
         <div class="col-md-3">
             <!-- Button trigger modal -->

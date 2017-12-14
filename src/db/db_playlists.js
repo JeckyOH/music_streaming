@@ -197,7 +197,7 @@ exports.deletePlaylistContains = async function (playlist_id, tid) {
 
     return pool.one(sql`
     DELETE FROM "playlist_contains"
-    WHERE pid = (${playlist_id} and tid = ${tid}
+    WHERE pid = ${playlist_id} and tid = ${tid}
     `)
 }
 

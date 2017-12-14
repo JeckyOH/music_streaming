@@ -35,6 +35,19 @@ router.get('/profile/:username', async ctx => {
 })
 
 /**
+ * modify own profile.
+ */
+router.get('/profile/:username/edit', mw.ifLogin(), async ctx => {
+
+    const basic_info = await db_users.getUserByUname(ctx.currUser.username)
+    pre.presentUser(basic_info)
+
+    await ctx.render('profile', {
+        basic_info: basic_info
+    })
+})
+
+/**
  * Update the basic information of an user.
  */
 router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {

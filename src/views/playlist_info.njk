@@ -36,7 +36,7 @@
                                         <tr>
                                             <td class="font">{{ item.ttitle }}</td>
                                             <td class="font">{{ item.tid }}</td>
-                                            <td><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
+                                            <td><button class="btn btn-default" onclick="playtrack('{{ item.tid }}', '{{ item.pid }}')">
                                                     <span class="glyphicon glyphicon-play"></span></button></td>
                                             <td style="font-size: medium; text-align: center">
                                                 <form action="/playlists/deletetracks" method="post">

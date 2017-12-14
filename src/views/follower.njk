@@ -24,20 +24,15 @@
             <br>
             <h1>{{ user.username }}</h1>
         </div>
-        <h2>My Follow</h2>
+        <h2>My Fans</h2>
         <br>
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <ul class="nav nav-tabs">
-                <li class="size"><a data-toggle="tab" href="#follower">Fans</a></li>
-                <li class="active size"><a data-toggle="tab" href="#followee">Follows</a></li>
-            </ul>
             <div class="tab-content">
                 <div id="followee" class="tab-pane fade">
-                    <h3>Follows</h3>
                     <ul class="list-group">
-                        {% for item in followees %}
-                            <li class="list-group-item font"><a href="#">{{ item.followee }}</a> </li>
+                        {% for item in followers %}
+                            <li class="list-group-item font"><a href="/profile/{{ item.follower }}">{{ item.follower }}</a> </li>
                         {% endfor %}
                     </ul>
                 </div>

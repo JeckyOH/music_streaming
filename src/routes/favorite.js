@@ -39,10 +39,12 @@ router.post('/favorites', mw.ifLogin(), async ctx => {
     const exist = await db_artists.existFavorite(ctx.currUser.username, ctx.vals.aid)
     if (exist) {
         ctx.response.status = 400
-        ctx.body = "This user has already been followed."
+        ctx.body = "This artist has already been favorited."
     }
-    await db_artists.insertFavorite(ctx.currUser.username, ctx.vals.aid)
-    ctx.response.status = 200
+    else {
+        await db_artists.insertFavorite(ctx.currUser.username, ctx.vals.aid)
+        ctx.response.status = 200
+    }
 })
 
 /**

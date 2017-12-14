@@ -107,7 +107,7 @@ exports.deleteFollow = async function (follower, followee) {
 
     return pool.one(sql`
     DELETE FROM "follow" 
-    WHERE follower_usr = ${follower} and followee_usrname = ${followee}
+    WHERE follower_usrname = ${follower} and followee_usrname = ${followee}
     `)
 }
 
@@ -247,7 +247,7 @@ exports.getFriendCircleByUsername = async function (username) {
     assert(typeof username === 'string')
 
     const following = await pool.many(sql`
-    SELECT f2.followee_usrname as followee_usrname, f2.fldate as fldate
+    SELECT f2.follower_usrname as follower_usrname, f2.followee_usrname as followee_usrname, f2.fldate as fldate
     FROM follow f1 JOIN follow f2 ON f1.followee_usrname = f2.follower_usrname
     WHERE f1.follower_usrname = ${username}
     ORDER BY fldate DESC
