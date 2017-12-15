@@ -6,7 +6,6 @@
             padding: 20px;
             font-size: large;
             text-align: center;
-            opacity: 0.8;
             border-right: 0;
             border-top: 0;
             border-left: 0;
@@ -15,11 +14,13 @@
         }
         .content {
             color: black;
-            opacity: 0.8;
             border-right: 0;
             border-top: 0;
             border-left: 0;
             border-bottom: 0;
+        }
+        .font {
+            color: #0f0f0f;
         }
         .panel-heading {
             font-size: x-large;
@@ -30,13 +31,12 @@
             color: #ffffff;
             -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
             box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-            opacity:0.7;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <<div class="page-header"></div>
+    <div class="page-header"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
@@ -45,26 +45,88 @@
                     <!-- Default panel contents -->
                     <div class="panel-heading">{{ alname }}</div>
                     <div class="panel-body">
+                        <!-- Rating Modal -->
+                        <div class="modal fade" id="rating_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title font" id="myModalLabel">Rating</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="font">Rate this track from 1 to 5 stars.</p>
+                                        <form action="/rating" method="post">
+                                            <select class="form-control" name="score">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                            <input id = "rating_tid" class="hidden" name="tid" value="">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Track Modal -->
+                        <div class="modal fade" id="addtrack_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title font" id="myModalLabel">Add</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="font">Add this track to a playlist.</p>
+                                        <form action="/playlists/addtracks" method="post">
+                                            <select class="form-control" name="pid">
+                                                {% for playlist in user.playlists %}
+                                                    <option value = "{{ playlist.pid }}">{{ playlist.ptitle }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input id = "addtrack_tid" class="hidden" name="tid" value="">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pull-right" name="submit" value="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover">
                             <thead>
-                                <tr style="color: black">
-                                    <th>Name</th>
-                                    <th>Artist</th>
-                                    <th>Play</th>
-                                    <th>Add</th>
-                                </tr>
+                            <tr style="color: black">
+                                <th>Name</th>
+                                <th>Artist</th>
+                                <th>Play</th>
+                                <th>Add</th>
+                                <th>Rate</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                    {% for item in tracks %}
-                                        <tr>
-                                            <td class="content">{{ item.ttitle }}</td>
-                                            <td class="content">{{ item.tid }}</td>
-                                            <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
-                                                    <span class="glyphicon glyphicon-play"></span></button></td>
-                                            <td class="content"><button class="btn btn-default">
-                                                    <span class="glyphicon glyphicon-plus"></span></button></td>
-                                        </tr>
-                                    {% endfor %}
+                            {% for item in tracks %}
+                                <tr>
+                                    <td class="content">{{ item.ttitle }}</td>
+                                    <td class="content">{{ item.aname }}</td>
+                                    <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
+                                            <span class="glyphicon glyphicon-play"></span></button></td>
+                                    <td class="content"><button class="btn btn-default" onclick="showAddtrackModal('{{ item.tid }}')">
+                                            <span class="glyphicon glyphicon-plus"></span></button></td>
+                                    <td class="content">
+
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-default" onclick="showRatingModal('{{ item.tid }}')">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

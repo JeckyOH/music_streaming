@@ -1,17 +1,17 @@
 {
-    "name": "koa-skeleton",
+    "name": "music_streaming",
     "private": true,
-    "description": "a simple, full-featured koa application",
-    "version": "4.0.0",
+    "description": "music streaming service",
+    "version": "1.0.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/danneu/koa-skeleton"
+        "url": "https://github.com/JeckyOH/music_streaming"
     },
     "scripts": {
         "start": "node app.js",
         "start-dev": "nodemon --ext js,jsx,html app.js",
         "reset-db": "node ./sql/reset_db",
-        "deploy": "git push heroku master",
+        "deploy": "git push origin master",
         "pretty-fix": "prettier --write \"{src,sql,test}/**/*.js\"",
         "lint": "eslint src",
         "patch": "npm version patch",

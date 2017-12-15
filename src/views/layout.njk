@@ -150,6 +150,16 @@
             })
         }
 
+        function showRatingModal(tid) {
+            $("#rating_tid").val(tid)
+            $("#rating_modal").modal('show')
+        }
+
+        function showAddtrackModal(tid) {
+            $("#addtrack_tid").val(tid)
+            $("#addtrack_modal").modal('show')
+        }
+
         $("#close_btn").click( function () {
             $("#playdiv").hide()
         })

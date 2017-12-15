@@ -9,6 +9,7 @@
         .font {
             font-size: medium;
             text-align: center;
+            color: #0f0f0f;
         }
         .size {
             font-size: large;
@@ -29,7 +30,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="tab-content">
-                <div id="followee" class="tab-pane fade">
+                <div id="follower">
                     <ul class="list-group">
                         {% for item in followers %}
                             <li class="list-group-item font"><a href="/profile/{{ item.follower }}">{{ item.follower }}</a> </li>

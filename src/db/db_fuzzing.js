@@ -68,7 +68,7 @@ exports.getPlaylistByKeyword = async function (keyword, limit = 'ALL', offset = 
     return pool.many(sql`
     SELECT *
     FROM "playlists"
-    WHERE ptitle LIKE ${'%'+ keyword + '%'} 
+    WHERE ptitle LIKE ${'%'+ keyword + '%'} and pstatus = 'public'
     LIMIT ${limit} OFFSET ${offset}
     `)
 }

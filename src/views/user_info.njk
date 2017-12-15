@@ -39,7 +39,14 @@
                     </tr>
                     </tbody>
                 </table>
-
+                <hr>
+                <h3>Playlists</h3>
+                <ul class="list-group">
+                    {% for item in playlists %}
+                    <li class="list-group-item font"><a href="/playlist/{{ item.pid }}">{{ item.ptitle }}</a></li>
+                    {% endfor %}
+                </ul>
+                <hr>
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">

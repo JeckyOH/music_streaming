@@ -335,7 +335,7 @@
                                             <tbody>
                                             {% for item in friend_circle.tracksplayed %}
                                                 <tr>
-                                                    <td>{ item.ttitle }}</td>
+                                                    <td>{{ item.ttitle }}</td>
                                                     <td>{{ item.tptime }}</td>
                                                     <td>{{ item.username }}</td>
                                                 </tr>
@@ -386,9 +386,8 @@
                     <div class="panel-body">
                             <div class="panel-body">
                                 {% for item in recommend_users %}
-                                    <button class="btn btn-default"
-                                            style="font-size: medium; border: none"><a href="/profile/{{ item.username }}" >
-                                            {{ item.username }}</a></button><br>
+                                    <a class="btn btn-default" href="/profile/{{ item.username }}" >
+                                            {{ item.username }}</a><br>
                                 {% endfor %}
                             </div>
                     </div>

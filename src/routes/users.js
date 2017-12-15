@@ -4,6 +4,7 @@ const router = require('koa-router')()
 const debug = require('debug')('app:routes:index')
 // 1st party
 const db_users = require('../db/db_users')
+const db_playlists = require('../db/db_playlists')
 const pre = require('../presenters')
 const mw = require('../middleware')
 const config = require('../config')
@@ -23,8 +24,11 @@ router.get('/profile/:username', async ctx => {
 
     const moments = await db_users.getMomentByUsername(ctx.vals.username)
 
+    const playlists = await db_playlists.getPlaylistByUsername(ctx.vals.username)
+
     await ctx.render('user_info', {
         basic_info: basic_info,
+        playlists: playlists,
         following: moments.following,
         followed: moments.followed,
         rating: moments.rating,
@@ -58,6 +62,7 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
         .trim()
     ctx
         .validateBody('ucity')
+        .optional()
         .isString()
         .trim()
         .match(
@@ -67,10 +72,12 @@ router.post('/profile/:username/edit', mw.ifLogin(), async ctx => {
 
     ctx
         .validateBody('uemail')
+        .optional()
         .isString()
         .trim()
     ctx
         .validateBody('uname')
+        .optional()
         .isString()
         .trim()
         .match(

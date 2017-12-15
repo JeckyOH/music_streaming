@@ -148,8 +148,11 @@ router.get('/playlist/:pid', async ctx => {
         .isString()
         .trim()
 
+    const playlist = await db_playlists.getPlaylistByPid(ctx.vals.pid)
     const tracks = await db_playlists.getTracksByPlaylist(ctx.vals.pid)
+
     await ctx.render('playlist_info', {
+        basic_info: playlist,
         tracks: tracks
     })
 

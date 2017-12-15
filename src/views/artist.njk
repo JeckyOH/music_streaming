@@ -91,7 +91,6 @@
                     <thead>
                     <tr style="color: black">
                         <th>Name</th>
-                        <th>Artist</th>
                         <th>Play</th>
                         <th>Add</th>
                         <th>Rate</th>
@@ -101,7 +100,6 @@
                     {% for item in tracks %}
                         <tr>
                             <td class="content">{{ item.ttitle }}</td>
-                            <td class="content">{{ item.aname }}</td>
                             <td class="content"><button class="btn btn-default" onclick="playtrack('{{ item.tid }}')">
                                     <span class="glyphicon glyphicon-play"></span></button></td>
                             <td class="content"><button class="btn btn-default" onclick="showAddtrackModal('{{ item.tid }}')">

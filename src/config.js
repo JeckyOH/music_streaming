@@ -45,10 +45,6 @@ if (exports.RECAPTCHA_SYSTEM_ONLINE) {
     logger.warn('Warn: Recaptcha system offline')
 }
 
-exports.MESSAGES_PER_PAGE =
-    Number.parseInt(process.env.MESSAGES_PER_PAGE, 10) || 10
-exports.USERS_PER_PAGE = Number.parseInt(process.env.USERS_PER_PAGE, 10) || 10
-
 exports.FUZZING_SEARCH_LIMIT =
     Number.parseInt(process.env.FUZZING_SEARCH_LIMIT) || 20
 
